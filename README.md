@@ -1,4 +1,4 @@
-# Claude Code Skills
+# Skills for Claude Code
 
 **Lightweight skills that call APIs directly, avoiding MCP context overhead.**
 
