@@ -1,0 +1,53 @@
+{
+  "skill_name": "github",
+  "skill_path": "C:\\data\\projects\\skills\\github",
+  "scores": {
+    "structure": {
+      "score": 17,
+      "max": 25,
+      "breakdown": {
+        "skill_md_exists": 5,
+        "valid_frontmatter": 2,
+        "scripts_dir": 5,
+        "has_implementation": 5,
+        "organization": 0
+      }
+    },
+    "functionality": {
+      "score": 35,
+      "max": 35,
+      "breakdown": {
+        "no_syntax_errors": 10,
+        "importable": 10,
+        "has_functions": 10,
+        "has_docstrings": 5
+      }
+    },
+    "quality": {
+      "score": 24,
+      "max": 25,
+      "breakdown": {
+        "documentation": 9,
+        "examples": 5,
+        "type_hints": 5,
+        "error_handling": 5
+      }
+    },
+    "integration": {
+      "score": 15,
+      "max": 15,
+      "breakdown": {
+        "loadable": 10,
+        "performance": 5
+      }
+    }
+  },
+  "total": 91,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Improve file structure: Add SKILL.md with frontmatter, create scripts/ directory"
+  ]
+}

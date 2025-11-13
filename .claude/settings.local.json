@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/data/projects/mcp-to-skills/**)",
+      "Skill(sequential-thinking)",
+      "Read(//c/Users/m0j0d/.claude/skills/sequential-thinking/**)",
+      "Bash(python scripts/sequential_thinking.py think:*)",
+      "Bash(python scripts/sequential_thinking.py export:*)",
+      "Bash(python scripts/sequential_thinking.py:*)",
+      "Bash(npm install)",
+      "Read(//c/data/projects/atlas/**)",
+      "Read(//c/data/projects/portfolio-plugin/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

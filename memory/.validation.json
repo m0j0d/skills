@@ -1,0 +1,24 @@
+{
+  "skill": {
+    "name": "memory",
+    "category": "productivity-skills",
+    "description": "Knowledge graph-based persistent memory for retaining information across conversations. Store entities, relations, and observations to remember context, preferences, and facts.",
+    "license": "MIT"
+  },
+  "validation": {
+    "timestamp": "2025-10-24T08:25:07.748Z",
+    "validated": true
+  },
+  "tests": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0,
+    "coverage": 100
+  },
+  "mcp": null,
+  "drift": {
+    "status": "📝 DOCS-ONLY",
+    "coverage": null,
+    "hasConfig": false
+  }
+}

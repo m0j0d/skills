@@ -1,0 +1,49 @@
+{
+  "skill_name": "fetch",
+  "skill_path": "C:\\data\\projects\\skills\\fetch",
+  "scores": {
+    "structure": {
+      "score": 20,
+      "max": 25,
+      "breakdown": {
+        "skill_md_exists": 5,
+        "valid_frontmatter": 5,
+        "scripts_dir": 5,
+        "has_implementation": 5,
+        "organization": 0
+      }
+    },
+    "functionality": {
+      "score": 27,
+      "max": 35,
+      "breakdown": {
+        "no_syntax_errors": 10,
+        "importable": 10,
+        "has_functions": 2,
+        "has_docstrings": 5
+      }
+    },
+    "quality": {
+      "score": 22,
+      "max": 25,
+      "breakdown": {
+        "documentation": 8,
+        "examples": 4,
+        "type_hints": 5,
+        "error_handling": 5
+      }
+    },
+    "integration": {
+      "score": 15,
+      "max": 15,
+      "breakdown": {
+        "loadable": 10,
+        "performance": 5
+      }
+    }
+  },
+  "total": 84,
+  "grade": "B",
+  "issues": [],
+  "recommendations": []
+}
