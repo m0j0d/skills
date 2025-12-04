@@ -38,50 +38,28 @@ Skill: Claude → Python Script → REST API
 
 ## Installation
 
-**Skills directory location:**
-- **Linux/Mac:** `~/.claude/skills/`
-- **Windows:** `%USERPROFILE%\.claude\skills\`
-- Create the directory if it doesn't exist: `mkdir -p ~/.claude/skills`
-
-**Quick start:**
-
 ```bash
-# 1. Clone this repository to a temporary location
-git clone https://github.com/m0j0d/skills.git /tmp/claude-skills
+# Clone to skills directory (Linux/Mac: ~/.claude/skills, Windows: %USERPROFILE%\.claude\skills)
+git clone https://github.com/m0j0d/skills.git ~/.claude/skills
 
-# 2. Copy desired skills to your Claude Code skills directory
-cp -r /tmp/claude-skills/fetch ~/.claude/skills/
-cp -r /tmp/claude-skills/memory ~/.claude/skills/
-# ... add more as needed
+# Or copy individual skills
+cp -r /path/to/skills/github ~/.claude/skills/
 
-# 3. Install dependencies (if skill requires them)
-pip install -r ~/.claude/skills/fetch/requirements.txt  # example
+# Install dependencies if needed
+pip install -r ~/.claude/skills/github/requirements.txt
 ```
 
-**Configuration** (for skills that need API access):
+**Configuration:** Skills that need API access use environment variables:
 
 ```bash
-# Set environment variables for credentials
 export GITHUB_TOKEN="your-token-here"
-export TWITTER_API_KEY="your-key-here"
+export SLACK_TOKEN="your-token-here"
 ```
 
-See each skill's documentation for specific setup requirements.
+See each skill's documentation for specific setup.
 
 ---
 
-## Help Shape This Project
+## Feedback Welcome
 
-**This project needs real-world feedback:**
-
-- Does the skills approach solve a problem for you?
-- Which skills would you actually use in your workflow?
-- What's confusing or broken in the installation?
-- Are there MCP servers you'd want as skills?
-
-**Get involved:**
-- Try a skill and share your experience
-- [Report issues or suggestions](https://github.com/m0j0d/skills/issues)
-- [Read the contribution guide](CONTRIBUTING.md)
-
-**Status:** Early release - your feedback shapes what gets built next.
+Early release - [share your experience or report issues](https://github.com/m0j0d/skills/issues).
