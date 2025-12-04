@@ -1,0 +1,231 @@
+{
+  "skill_name": "github",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 8.56,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:54:34.548299",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestAuthentication",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_token_configured",
+          "outcome": "passed",
+          "duration": 0.17,
+          "assertions": [
+            "token is not None",
+            "len(token) > 0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestRepository",
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_get_repo",
+          "outcome": "passed",
+          "duration": 294.78,
+          "method": "get_repo",
+          "snippet": "github_tools.get_repo(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "'error' not in result or result.get('error') is None",
+            "result.get('name') == TEST_REPO",
+            "result.get('owner', {}).get('login') == TEST_OWNER"
+          ]
+        },
+        {
+          "name": "test_get_repo_includes_metadata",
+          "outcome": "passed",
+          "duration": 224.06,
+          "method": "get_repo",
+          "snippet": "github_tools.get_repo(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "'full_name' in result",
+            "'description' in result",
+            "'html_url' in result"
+          ]
+        },
+        {
+          "name": "test_search_repos",
+          "outcome": "passed",
+          "duration": 743.12,
+          "method": "search_repos",
+          "snippet": "github_tools.search_repos('hello world language:python', per_page=5)",
+          "assertions": [
+            "'error' not in result or result.get('error') is None",
+            "'items' in result or 'total_count' in result",
+            "len(items) > 0"
+          ]
+        },
+        {
+          "name": "test_search_repos_pagination",
+          "outcome": "passed",
+          "duration": 753.18,
+          "method": "search_repos",
+          "snippet": "github_tools.search_repos('python', per_page=3)",
+          "assertions": [
+            "len(items) <= 3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestIssues",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_list_issues",
+          "outcome": "passed",
+          "duration": 362.27,
+          "method": "list_issues",
+          "snippet": "github_tools.list_issues(TEST_OWNER, TEST_REPO, state='all', per_page=5)",
+          "assertions": [
+            "'error' not in result or result.get('error') is None",
+            "isinstance(result, list)"
+          ]
+        },
+        {
+          "name": "test_list_issues_with_state_filter",
+          "outcome": "passed",
+          "duration": 249.65,
+          "method": "list_issues",
+          "snippet": "github_tools.list_issues(TEST_OWNER, TEST_REPO, state='closed', per_page=5)",
+          "assertions": [
+            "isinstance(result, list)",
+            "issue['state'] == 'closed'"
+          ]
+        },
+        {
+          "name": "test_search_issues",
+          "outcome": "passed",
+          "duration": 395.32,
+          "method": "search_issues",
+          "snippet": "github_tools.search_issues('repo:octocat/Hello-World', per_page=5)",
+          "assertions": [
+            "'error' not in result or result.get('error') is None",
+            "'items' in result or 'total_count' in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestPullRequests",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_list_pull_requests",
+          "outcome": "passed",
+          "duration": 389.2,
+          "method": "list_pull_requests",
+          "snippet": "github_tools.list_pull_requests(TEST_OWNER, TEST_REPO, state='all', per_page=5)",
+          "assertions": [
+            "'error' not in result or result.get('error') is None",
+            "isinstance(result, list)"
+          ]
+        },
+        {
+          "name": "test_list_pull_requests_closed",
+          "outcome": "passed",
+          "duration": 394.32,
+          "method": "list_pull_requests",
+          "snippet": "github_tools.list_pull_requests(TEST_OWNER, TEST_REPO, state='closed', per_pa...",
+          "assertions": [
+            "isinstance(result, list)",
+            "pr['state'] == 'closed'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestErrorHandling",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_nonexistent_repo",
+          "outcome": "passed",
+          "duration": 172.97,
+          "method": "get_repo",
+          "snippet": "github_tools.get_repo('nonexistent-user-12345', 'nonexistent-repo-67890')",
+          "assertions": [
+            "has_error",
+            "'404' in str(e) or 'Not Found' in str(e)"
+          ]
+        },
+        {
+          "name": "test_invalid_issue_number",
+          "outcome": "passed",
+          "duration": 192.79,
+          "method": "issue_read",
+          "snippet": "github_tools.issue_read(TEST_OWNER, TEST_REPO, 999999999)",
+          "assertions": [
+            "result is not None",
+            "'404' in str(e) or 'Not Found' in str(e)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestRateLimiting",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_multiple_requests",
+          "outcome": "passed",
+          "duration": 734.06,
+          "method": "get_repo",
+          "snippet": "github_tools.get_repo(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "'name' in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestResponseFormat",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_repo_response_structure",
+          "outcome": "passed",
+          "duration": 258.08,
+          "method": "get_repo",
+          "snippet": "github_tools.get_repo(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "field in result"
+          ]
+        },
+        {
+          "name": "test_search_response_structure",
+          "outcome": "passed",
+          "duration": 732.56,
+          "method": "search_repos",
+          "snippet": "github_tools.search_repos('test', per_page=1)",
+          "assertions": [
+            "'total_count' in result",
+            "'items' in result",
+            "isinstance(result['items'], list)"
+          ]
+        }
+      ]
+    }
+  ]
+}

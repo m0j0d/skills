@@ -1,0 +1,15 @@
+{
+  "skill_name": "semgrep",
+  "skill_path": "C:\\data\\projects\\skills\\semgrep",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "findings": {
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "total": 0
+  },
+  "details": [],
+  "status": "passed"
+}

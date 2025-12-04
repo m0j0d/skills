@@ -27,114 +27,124 @@ Use this skill when you need to:
 
 ### Navigation
 
-**playwright_navigate** - Open a URL in the browser
+**browser_navigate** - Navigate to a URL
 ```bash
-python scripts/playwright_wrapper.py navigate --url "file:///C:/path/to/index.html" --headless
-python scripts/playwright_wrapper.py navigate --url "https://example.com" --width 1920 --height 1080
+python scripts/browser_tools.py browser_navigate --url "file:///C:/path/to/index.html"
+python scripts/browser_tools.py browser_navigate --url "https://example.com" --timeout 30000
 ```
 
 Parameters:
 - `url` (required) - URL to navigate to (supports file:// for local files)
-- `--browser` - chromium, firefox, webkit (default: chromium)
-- `--width` - Viewport width (default: 1280)
-- `--height` - Viewport height (default: 720)
-- `--headless` - Run without visible browser window
-- `--timeout` - Navigation timeout in ms (default: 30000)
+- `timeout` - Navigation timeout in ms (default: 30000)
 
-**playwright_go_back** / **playwright_go_forward** - Browser history navigation
+**browser_navigate_back** - Go back to the previous page
+
+**browser_close** - Close the browser
 
 ### Inspection
 
-**playwright_screenshot** - Capture page screenshot
+**browser_screenshot** - Take a screenshot of the current page
 ```bash
-python scripts/playwright_wrapper.py screenshot --name "debug" --fullPage
-python scripts/playwright_wrapper.py screenshot --name "element" --selector "#app"
+python scripts/browser_tools.py browser_screenshot --filename "debug.png" --fullPage true
+python scripts/browser_tools.py browser_screenshot --ref "#app"
 ```
 
 Parameters:
-- `name` (required) - Filename for screenshot
-- `--selector` - CSS selector to screenshot specific element
-- `--fullPage` - Capture entire scrollable page
-- `--savePng` - Save as PNG file to disk
-- `--storeBase64` - Return base64 encoded image
+- `filename` - Save location (optional, returns base64 if not provided)
+- `fullPage` - Capture entire scrollable page (default: false)
+- `ref` - CSS selector for specific element
 
-**playwright_console_logs** - Read browser console messages
+**browser_console_messages** - Returns all console messages
 ```bash
-python scripts/playwright_wrapper.py console --type error
-python scripts/playwright_wrapper.py console --search "Meadowcraft" --limit 50
+python scripts/browser_tools.py browser_console_messages --onlyErrors true
 ```
 
 Parameters:
-- `--type` - Filter by: all, error, warning, log, info, debug (default: all)
-- `--search` - Search term to filter messages
-- `--limit` - Max number of messages to return
-- `--clear` - Clear console after reading
+- `onlyErrors` - Filter for errors only (default: false)
 
-**playwright_get_visible_text** - Extract visible text from page
-```bash
-python scripts/playwright_wrapper.py visible-text --selector ".error-message"
-```
+**browser_snapshot** - Capture accessibility snapshot of the current page
 
-**playwright_get_visible_html** - Get page HTML
+**browser_evaluate** - Evaluate JavaScript expression on page
 ```bash
-python scripts/playwright_wrapper.py visible-html --selector "#app" --cleanHtml
+python scripts/browser_tools.py browser_evaluate --function "game.state.garden.plants.length"
+python scripts/browser_tools.py browser_evaluate --function "document.title"
 ```
 
 Parameters:
-- `--selector` - CSS selector for specific element
-- `--removeScripts` - Strip <script> tags
-- `--removeStyles` - Strip <style> tags
-- `--cleanHtml` - Remove comments, scripts, styles, meta tags
+- `function` (required) - JavaScript code to execute
+- `ref` - CSS selector for element context (optional)
 
 ### Interaction
 
-**playwright_click** - Click an element
+**browser_click** - Perform click on a web page
 ```bash
-python scripts/playwright_wrapper.py click --selector "button#start-game"
-```
-
-**playwright_fill** - Fill input field
-```bash
-python scripts/playwright_wrapper.py fill --selector "input[name='username']" --value "testuser"
-```
-
-**playwright_evaluate** - Execute JavaScript in browser
-```bash
-python scripts/playwright_wrapper.py evaluate --script "console.log(game.state.garden.plants.length)"
-python scripts/playwright_wrapper.py evaluate --script "document.querySelector('#app').innerText"
+python scripts/browser_tools.py browser_click --element "start button" --ref "button#start-game"
 ```
 
 Parameters:
-- `script` (required) - JavaScript code to execute
-- Returns evaluation result as JSON
+- `element` - Human-readable element description
+- `ref` (required) - CSS selector for target element
+- `doubleClick` - Double click toggle (default: false)
+- `button` - Mouse button: left, right, middle (default: left)
+
+**browser_type** - Type text into editable element
+```bash
+python scripts/browser_tools.py browser_type --element "username field" --ref "input[name='username']" --text "testuser"
+```
+
+Parameters:
+- `element` - Element description
+- `ref` (required) - CSS selector for input element
+- `text` (required) - Text content to type
+- `submit` - Press Enter after typing (default: false)
+- `slowly` - Type character by character (default: false)
+
+**browser_hover** - Hover over element on page
+
+**browser_select_option** - Select an option in a dropdown
+
+**browser_press_key** - Press a key on the keyboard
+
+**browser_wait_for** - Wait for text or time delay
+```bash
+python scripts/browser_tools.py browser_wait_for --time 2
+python scripts/browser_tools.py browser_wait_for --text "Loading complete"
+```
+
+Parameters:
+- `time` - Wait duration in seconds
+- `text` - Text to appear
+- `textGone` - Text to disappear
+
+**browser_resize** - Resize the browser window
 
 ### Common Workflows
 
 #### Debug Local Web App
 ```bash
 # 1. Open the local file
-python scripts/playwright_wrapper.py navigate --url "file:///C:/projects/meadowcraft/index.html"
+python scripts/browser_tools.py browser_navigate --url "file:///C:/projects/meadowcraft/index.html"
 
 # 2. Read console errors
-python scripts/playwright_wrapper.py console --type error
+python scripts/browser_tools.py browser_console_messages --onlyErrors true
 
 # 3. Take screenshot to see visual state
-python scripts/playwright_wrapper.py screenshot --name "app-state" --fullPage --savePng
+python scripts/browser_tools.py browser_screenshot --filename "app-state.png" --fullPage true
 
 # 4. Inspect JavaScript state
-python scripts/playwright_wrapper.py evaluate --script "JSON.stringify(game.state)"
+python scripts/browser_tools.py browser_evaluate --function "JSON.stringify(game.state)"
 ```
 
 #### Monitor Game State
 ```bash
 # Check if plants are loading
-python scripts/playwright_wrapper.py evaluate --script "game.state.garden.plants.length"
+python scripts/browser_tools.py browser_evaluate --function "game.state.garden.plants.length"
 
 # Check database status
-python scripts/playwright_wrapper.py evaluate --script "game.plantDatabase?.isLoaded"
+python scripts/browser_tools.py browser_evaluate --function "game.plantDatabase?.isLoaded"
 
 # Get current plant types
-python scripts/playwright_wrapper.py evaluate --script "JSON.stringify(game.state.garden.plants.map(p => p.type))"
+python scripts/browser_tools.py browser_evaluate --function "JSON.stringify(game.state.garden.plants.map(p => p.type))"
 ```
 
 ## Installation
@@ -151,8 +161,7 @@ playwright install chromium
 
 ## Bundled Scripts
 
-- `scripts/playwright_wrapper.py` - Main tool wrapper with CLI interface
-- `scripts/debug_webapp.py` - Helper script for common debugging workflows
+- `scripts/browser_tools.py` - Main browser automation tools with CLI interface
 
 ## Implementation Notes
 

@@ -1,0 +1,358 @@
+{
+  "skill_name": "memory",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 23,
+    "passed": 23,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 4.55,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:53:46.786478",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestCreateEntities",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_create_single_entity",
+          "outcome": "passed",
+          "duration": 0.5,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 1",
+            "'Test_Entity' in result['entities']"
+          ]
+        },
+        {
+          "name": "test_create_multiple_entities",
+          "outcome": "passed",
+          "duration": 0.43,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 2",
+            "'Alice_Developer' in result['entities']"
+          ]
+        },
+        {
+          "name": "test_create_entity_with_empty_observations",
+          "outcome": "passed",
+          "duration": 0.49,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestCreateRelations",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_create_relation",
+          "outcome": "passed",
+          "duration": 0.67,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 1"
+          ]
+        },
+        {
+          "name": "test_create_multiple_relations",
+          "outcome": "passed",
+          "duration": 0.65,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestAddObservations",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_add_observations",
+          "outcome": "passed",
+          "duration": 0.45,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['entity'] == 'Alice_Developer'",
+            "result['added'] == 2"
+          ]
+        },
+        {
+          "name": "test_add_observation_to_nonexistent_entity",
+          "outcome": "passed",
+          "duration": 0.13,
+          "method": "add_observations",
+          "snippet": "memory_tools.add_observations('Nonexistent', ['test'])",
+          "assertions": [
+            "result['status'] == 'error'",
+            "'message' in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestDeleteEntities",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_delete_entity",
+          "outcome": "passed",
+          "duration": 0.48,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['deleted'] == 1",
+            "'Alice_Developer' not in entity_names"
+          ]
+        },
+        {
+          "name": "test_delete_multiple_entities",
+          "outcome": "passed",
+          "duration": 0.42,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['deleted'] == 2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestDeleteObservations",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_delete_observations",
+          "outcome": "passed",
+          "duration": 0.48,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['entity'] == 'Alice_Developer'",
+            "result['deleted'] == 1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestDeleteRelations",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_delete_relations",
+          "outcome": "passed",
+          "duration": 0.93,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['deleted'] == 1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestReadGraph",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_read_empty_graph",
+          "outcome": "passed",
+          "duration": 0.2,
+          "method": "read_graph",
+          "snippet": "memory_tools.read_graph()",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['entity_count'] == 0",
+            "result['relation_count'] == 0"
+          ]
+        },
+        {
+          "name": "test_read_populated_graph",
+          "outcome": "passed",
+          "duration": 0.86,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['entity_count'] == 2",
+            "result['relation_count'] == 1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestSearchNodes",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_search_by_name",
+          "outcome": "passed",
+          "duration": 0.65,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['count'] >= 1",
+            "any(('Alice_Developer' in r['name'] for r in result['resu..."
+          ]
+        },
+        {
+          "name": "test_search_by_observation",
+          "outcome": "passed",
+          "duration": 0.52,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['count'] >= 1"
+          ]
+        },
+        {
+          "name": "test_search_no_results",
+          "outcome": "passed",
+          "duration": 0.45,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['count'] == 0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestOpenNodes",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_open_single_node",
+          "outcome": "passed",
+          "duration": 0.57,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['found'] == 1",
+            "len(result['nodes']) == 1"
+          ]
+        },
+        {
+          "name": "test_open_multiple_nodes",
+          "outcome": "passed",
+          "duration": 0.57,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['found'] == 2",
+            "len(result['nodes']) == 2"
+          ]
+        },
+        {
+          "name": "test_open_node_with_relations",
+          "outcome": "passed",
+          "duration": 0.66,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "len(result['nodes'][0]['relations_from']) == 1",
+            "result['nodes'][0]['relations_from'][0]['to'] == 'MCP_Pro..."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestCompleteWorkflow",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_full_memory_lifecycle",
+          "outcome": "passed",
+          "duration": 1.39,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(entities)",
+          "assertions": [
+            "search_result['count'] == 1",
+            "len(open_result['nodes'][0]['observations']) == 3",
+            "len(project['observations']) == 2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestEdgeCases",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_duplicate_entity_names",
+          "outcome": "passed",
+          "duration": 0.65,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(sample_entities)",
+          "assertions": [
+            "result['status'] in ['success', 'error']"
+          ]
+        },
+        {
+          "name": "test_empty_entity_list",
+          "outcome": "passed",
+          "duration": 0.33,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities([])",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['created'] == 0"
+          ]
+        },
+        {
+          "name": "test_special_characters_in_names",
+          "outcome": "passed",
+          "duration": 0.42,
+          "method": "create_entities",
+          "snippet": "memory_tools.create_entities(entities)",
+          "assertions": [
+            "result['status'] == 'success'"
+          ]
+        }
+      ]
+    }
+  ]
+}

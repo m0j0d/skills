@@ -1,0 +1,217 @@
+{
+  "skill_name": "playwright",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 30,
+    "passed": 30,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 22.05,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:54:25.773615",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestNavigation",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_set_content",
+          "outcome": "passed",
+          "duration": 49.46
+        },
+        {
+          "name": "test_navigate_file_url",
+          "outcome": "passed",
+          "duration": 36.88
+        }
+      ]
+    },
+    {
+      "name": "TestScreenshot",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_screenshot_page",
+          "outcome": "passed",
+          "duration": 129.63
+        },
+        {
+          "name": "test_screenshot_element",
+          "outcome": "passed",
+          "duration": 120.14
+        },
+        {
+          "name": "test_screenshot_invalid_selector",
+          "outcome": "passed",
+          "duration": 47.49
+        }
+      ]
+    },
+    {
+      "name": "TestConsole",
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_capture_console_log",
+          "outcome": "passed",
+          "duration": 17.14
+        },
+        {
+          "name": "test_filter_console_by_type",
+          "outcome": "passed",
+          "duration": 23.93
+        },
+        {
+          "name": "test_filter_console_by_search",
+          "outcome": "passed",
+          "duration": 17.04
+        },
+        {
+          "name": "test_clear_console",
+          "outcome": "passed",
+          "duration": 18.22
+        },
+        {
+          "name": "test_limit_console_logs",
+          "outcome": "passed",
+          "duration": 38.83
+        }
+      ]
+    },
+    {
+      "name": "TestEvaluate",
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_evaluate_simple",
+          "outcome": "passed",
+          "duration": 23.21
+        },
+        {
+          "name": "test_evaluate_dom_query",
+          "outcome": "passed",
+          "duration": 26.81
+        },
+        {
+          "name": "test_evaluate_element_text",
+          "outcome": "passed",
+          "duration": 25.75
+        },
+        {
+          "name": "test_evaluate_returns_object",
+          "outcome": "passed",
+          "duration": 24.59
+        },
+        {
+          "name": "test_evaluate_returns_array",
+          "outcome": "passed",
+          "duration": 49.78
+        }
+      ]
+    },
+    {
+      "name": "TestInteraction",
+      "passed": 8,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_click_element",
+          "outcome": "passed",
+          "duration": 78.46
+        },
+        {
+          "name": "test_click_updates_page",
+          "outcome": "passed",
+          "duration": 86.01
+        },
+        {
+          "name": "test_fill_input",
+          "outcome": "passed",
+          "duration": 68.36
+        },
+        {
+          "name": "test_fill_updates_value",
+          "outcome": "passed",
+          "duration": 58.95
+        },
+        {
+          "name": "test_get_visible_text",
+          "outcome": "passed",
+          "duration": 48.86
+        },
+        {
+          "name": "test_get_visible_text_element",
+          "outcome": "passed",
+          "duration": 58.91
+        },
+        {
+          "name": "test_get_visible_html",
+          "outcome": "passed",
+          "duration": 24.76
+        },
+        {
+          "name": "test_get_visible_html_element",
+          "outcome": "passed",
+          "duration": 54.48
+        }
+      ]
+    },
+    {
+      "name": "TestErrorHandling",
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_error_before_start",
+          "outcome": "passed",
+          "duration": 0.42
+        },
+        {
+          "name": "test_invalid_browser_type",
+          "outcome": "passed",
+          "duration": 209.06
+        },
+        {
+          "name": "test_click_invalid_selector",
+          "outcome": "passed",
+          "duration": 1020.73
+        },
+        {
+          "name": "test_fill_invalid_selector",
+          "outcome": "passed",
+          "duration": 1026.13
+        },
+        {
+          "name": "test_get_text_invalid_selector",
+          "outcome": "passed",
+          "duration": 39.99
+        }
+      ]
+    },
+    {
+      "name": "TestBrowserOptions",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_custom_viewport",
+          "outcome": "passed",
+          "duration": 523.65
+        },
+        {
+          "name": "test_headless_mode",
+          "outcome": "passed",
+          "duration": 538.65
+        }
+      ]
+    }
+  ]
+}

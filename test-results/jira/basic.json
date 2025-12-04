@@ -1,0 +1,276 @@
+{
+  "skill_name": "jira",
+  "skill_path": "C:\\data\\projects\\skills\\jira",
+  "description": "Comprehensive Atlassian Jira Cloud integration enabling project management, issue tracking, workflow automation, and development information retrieval through natural language commands. Manage projects, create and update issues, search with JQL, add comments, and track development activity.",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 15,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 13863,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "jira_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "jira_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 11,
+        "documented_only": 0,
+        "implemented_only": 2
+      }
+    }
+  },
+  "total": 39,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "add_comment",
+      "create_issue",
+      "get_dev_info",
+      "get_issue",
+      "get_project",
+      "get_transitions",
+      "list_projects",
+      "list_statuses",
+      "search_issues",
+      "transition_issue",
+      "update_issue"
+    ],
+    "comparison": {
+      "documented_count": 11,
+      "implemented_count": 13,
+      "total_functions": 15,
+      "matched": [
+        "add_comment",
+        "create_issue",
+        "get_dev_info",
+        "get_issue",
+        "get_project",
+        "get_transitions",
+        "list_projects",
+        "list_statuses",
+        "search_issues",
+        "transition_issue",
+        "update_issue"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_client_from_env",
+        "main"
+      ],
+      "all_implemented": [
+        {
+          "name": "get_client_from_env",
+          "file": "jira_tools.py",
+          "line": 322,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> JiraClient"
+        },
+        {
+          "name": "main",
+          "file": "jira_tools.py",
+          "line": 337,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "()"
+        },
+        {
+          "name": "__init__",
+          "file": "jira_tools.py",
+          "line": 26,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "(self, site_name: str, user_email: str, api_token: str)"
+        },
+        {
+          "name": "_request",
+          "file": "jira_tools.py",
+          "line": 52,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "(self, method: str, endpoint: str, **kwargs) -> requests.Response"
+        },
+        {
+          "name": "list_projects",
+          "file": "jira_tools.py",
+          "line": 79,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, search: Optional[str] = None) -> List[Dict[str, Any]]"
+        },
+        {
+          "name": "get_project",
+          "file": "jira_tools.py",
+          "line": 97,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, project_key_or_id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "search_issues",
+          "file": "jira_tools.py",
+          "line": 110,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, jql: Optional[str] = None, project_key_or_id: Optional[str] = None, max_results: int = 50) -> List[Dict[str, Any]]"
+        },
+        {
+          "name": "get_issue",
+          "file": "jira_tools.py",
+          "line": 143,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "create_issue",
+          "file": "jira_tools.py",
+          "line": 159,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, project_key_or_id: str, summary: str, issue_type: str, description: Optional[str] = None, priority: Optional[str] = None, assignee: Optional[str] = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "update_issue",
+          "file": "jira_tools.py",
+          "line": 215,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str, fields: Dict[str, Any]) -> None"
+        },
+        {
+          "name": "add_comment",
+          "file": "jira_tools.py",
+          "line": 226,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str, body: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "get_dev_info",
+          "file": "jira_tools.py",
+          "line": 257,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "list_statuses",
+          "file": "jira_tools.py",
+          "line": 279,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, project_key_or_id: str) -> List[Dict[str, Any]]"
+        },
+        {
+          "name": "get_transitions",
+          "file": "jira_tools.py",
+          "line": 292,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str) -> List[Dict[str, Any]]"
+        },
+        {
+          "name": "transition_issue",
+          "file": "jira_tools.py",
+          "line": 306,
+          "is_method": true,
+          "class_name": "JiraClient",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(self, issue_key_or_id: str, transition_id: str) -> None"
+        }
+      ]
+    }
+  }
+}

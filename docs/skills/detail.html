@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Validation Details</title>
+    <link rel="stylesheet" href="../css/style.css?v=1732156000">
+    <link rel="stylesheet" href="../css/skill-detail.css?v=1732156000">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">← Back to Dashboard</a>
+            </div>
+            <div class="skill-header">
+                <h1 id="skillName">Loading...</h1>
+                <div class="skill-score">
+                    <div class="score-value" id="totalScore">--</div>
+                    <div class="score-label">/100</div>
+                    <span id="grade" class="grade-badge">-</span>
+                </div>
+            </div>
+            <p id="skillDescription" class="skill-description" style="display: none;"></p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="function-analysis-section">
+            <div class="category-card" id="functionAnalysis">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <section class="categories-grid">
+            <div class="category-card" id="structure"></div>
+            <div class="category-card" id="functionality"></div>
+            <div class="category-card" id="quality"></div>
+            <div class="category-card" id="security"></div>
+        </section>
+
+        <section class="integration-tests-section">
+            <div id="integrationTests" class="category-card">
+                <p class="loading">Loading test results...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="../index.html">Dashboard</a> |
+                <a href="https://github.com/m0j0d/skills">View on GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="../js/skill-detail.js?v=1732158000"></script>
+</body>
+</html>

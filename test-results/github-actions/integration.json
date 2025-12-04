@@ -1,0 +1,162 @@
+{
+  "skill_name": "github-actions",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 8.8,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:54:43.528811",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestAuthentication",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_token_configured",
+          "outcome": "passed",
+          "duration": 0.17,
+          "assertions": [
+            "token is not None",
+            "len(token) > 0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestClient",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_create_client",
+          "outcome": "passed",
+          "duration": 0.2,
+          "method": "GitHubActionsClient",
+          "snippet": "github_actions_tools.GitHubActionsClient(token)",
+          "assertions": [
+            "client is not None"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestWorkflows",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_list_workflows",
+          "outcome": "passed",
+          "duration": 257.32,
+          "method": "list_workflows",
+          "snippet": "client.list_workflows(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "isinstance(workflows, list)",
+            "len(workflows) > 0"
+          ]
+        },
+        {
+          "name": "test_workflow_structure",
+          "outcome": "passed",
+          "duration": 213.63,
+          "method": "list_workflows",
+          "snippet": "client.list_workflows(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "'id' in workflow",
+            "'name' in workflow",
+            "'path' in workflow"
+          ]
+        },
+        {
+          "name": "test_get_workflow",
+          "outcome": "passed",
+          "duration": 454.98,
+          "method": "list_workflows",
+          "snippet": "client.list_workflows(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "result is not None",
+            "'id' in result",
+            "'name' in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestWorkflowRuns",
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_list_workflow_runs",
+          "outcome": "passed",
+          "duration": 1284.49,
+          "method": "list_workflow_runs",
+          "snippet": "client.list_workflow_runs(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "isinstance(runs, list)",
+            "len(runs) > 0"
+          ]
+        },
+        {
+          "name": "test_workflow_run_structure",
+          "outcome": "passed",
+          "duration": 1160.08,
+          "method": "list_workflow_runs",
+          "snippet": "client.list_workflow_runs(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "'id' in run",
+            "'status' in run",
+            "'conclusion' in run or run['status'] != 'completed'"
+          ]
+        },
+        {
+          "name": "test_list_runs_with_status_filter",
+          "outcome": "passed",
+          "duration": 1155.1,
+          "method": "list_workflow_runs",
+          "snippet": "client.list_workflow_runs(TEST_OWNER, TEST_REPO, status='completed')",
+          "assertions": [
+            "isinstance(runs, list)",
+            "run['status'] == 'completed'"
+          ]
+        },
+        {
+          "name": "test_get_workflow_run",
+          "outcome": "passed",
+          "duration": 1412.54,
+          "method": "list_workflow_runs",
+          "snippet": "client.list_workflow_runs(TEST_OWNER, TEST_REPO)",
+          "assertions": [
+            "result is not None",
+            "'id' in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestErrorHandling",
+      "passed": 1,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_nonexistent_repo",
+          "outcome": "passed",
+          "duration": 162.83,
+          "method": "list_workflows",
+          "snippet": "client.list_workflows('nonexistent-12345', 'nonexistent-67890')",
+          "assertions": [
+            "True"
+          ]
+        }
+      ]
+    }
+  ]
+}

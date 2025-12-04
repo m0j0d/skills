@@ -1,0 +1,270 @@
+{
+  "skill_name": "twitter",
+  "skill_path": "C:\\data\\projects\\skills\\twitter",
+  "description": "Twitter/X integration for posting tweets, searching content, managing engagement, and interacting with users through the Twitter API",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 7,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 0,
+        "has_functions": 2,
+        "function_count": 14,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 8,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 7556,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 0,
+        "type_hints_details": {
+          "with_hints": [],
+          "without_hints": [
+            "twitter_tools.py"
+          ]
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "twitter_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 12,
+        "documented_only": 0,
+        "implemented_only": 2
+      }
+    }
+  },
+  "total": 34,
+  "max_total": 40,
+  "grade": "B",
+  "issues": [
+    "Frontmatter missing: tags",
+    "Cannot import twitter_tools.py: No module named 'tweepy'"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)",
+    "Add type hints to: twitter_tools.py"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "delete_tweet",
+      "follow_user",
+      "get_timeline",
+      "get_user_info",
+      "like_tweet",
+      "post_tweet",
+      "reply_to_tweet",
+      "retweet",
+      "search_tweets",
+      "undo_retweet",
+      "unfollow_user",
+      "unlike_tweet"
+    ],
+    "comparison": {
+      "documented_count": 12,
+      "implemented_count": 14,
+      "total_functions": 14,
+      "matched": [
+        "delete_tweet",
+        "follow_user",
+        "get_timeline",
+        "get_user_info",
+        "like_tweet",
+        "post_tweet",
+        "reply_to_tweet",
+        "retweet",
+        "search_tweets",
+        "undo_retweet",
+        "unfollow_user",
+        "unlike_tweet"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_twitter_client",
+        "main"
+      ],
+      "all_implemented": [
+        {
+          "name": "get_twitter_client",
+          "file": "twitter_tools.py",
+          "line": 15,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "()"
+        },
+        {
+          "name": "post_tweet",
+          "file": "twitter_tools.py",
+          "line": 46,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(text)"
+        },
+        {
+          "name": "reply_to_tweet",
+          "file": "twitter_tools.py",
+          "line": 68,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id, text)"
+        },
+        {
+          "name": "delete_tweet",
+          "file": "twitter_tools.py",
+          "line": 91,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id)"
+        },
+        {
+          "name": "search_tweets",
+          "file": "twitter_tools.py",
+          "line": 109,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(query, max_results = 10)"
+        },
+        {
+          "name": "get_timeline",
+          "file": "twitter_tools.py",
+          "line": 155,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(max_results = 10)"
+        },
+        {
+          "name": "like_tweet",
+          "file": "twitter_tools.py",
+          "line": 201,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id)"
+        },
+        {
+          "name": "unlike_tweet",
+          "file": "twitter_tools.py",
+          "line": 221,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id)"
+        },
+        {
+          "name": "retweet",
+          "file": "twitter_tools.py",
+          "line": 241,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id)"
+        },
+        {
+          "name": "undo_retweet",
+          "file": "twitter_tools.py",
+          "line": 261,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(tweet_id)"
+        },
+        {
+          "name": "get_user_info",
+          "file": "twitter_tools.py",
+          "line": 283,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(username)"
+        },
+        {
+          "name": "follow_user",
+          "file": "twitter_tools.py",
+          "line": 320,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(username)"
+        },
+        {
+          "name": "unfollow_user",
+          "file": "twitter_tools.py",
+          "line": 345,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(username)"
+        },
+        {
+          "name": "main",
+          "file": "twitter_tools.py",
+          "line": 370,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "()"
+        }
+      ]
+    }
+  }
+}

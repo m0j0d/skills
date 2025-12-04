@@ -1,0 +1,279 @@
+{
+  "skill_name": "github",
+  "skill_path": "C:\\data\\projects\\skills\\github",
+  "description": "GitHub repository management including issues, pull requests, comments, and repository operations for community management and development workflows",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 15,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 4451,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "github_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "github_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 12,
+        "documented_only": 0,
+        "implemented_only": 3
+      }
+    }
+  },
+  "total": 39,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "add_issue_comment",
+      "create_pull_request",
+      "get_repo",
+      "issue_read",
+      "issue_write",
+      "list_issues",
+      "list_pull_requests",
+      "merge_pull_request",
+      "pull_request_read",
+      "search_issues",
+      "search_repos",
+      "update_pull_request"
+    ],
+    "comparison": {
+      "documented_count": 12,
+      "implemented_count": 15,
+      "total_functions": 15,
+      "matched": [
+        "add_issue_comment",
+        "create_pull_request",
+        "get_repo",
+        "issue_read",
+        "issue_write",
+        "list_issues",
+        "list_pull_requests",
+        "merge_pull_request",
+        "pull_request_read",
+        "search_issues",
+        "search_repos",
+        "update_pull_request"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_github_token",
+        "main",
+        "make_request"
+      ],
+      "all_implemented": [
+        {
+          "name": "get_github_token",
+          "file": "github_tools.py",
+          "line": 16,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "()"
+        },
+        {
+          "name": "make_request",
+          "file": "github_tools.py",
+          "line": 24,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(method: str, url: str, data: Optional[Dict] = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "list_issues",
+          "file": "github_tools.py",
+          "line": 64,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, state: str = 'open', labels: str = '', assignee: str = '', sort: str = 'created', direction: str = 'desc', per_page: int = 30, page: int = 1) -> List[Dict]"
+        },
+        {
+          "name": "issue_read",
+          "file": "github_tools.py",
+          "line": 98,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, issue_number: int) -> Dict"
+        },
+        {
+          "name": "issue_write",
+          "file": "github_tools.py",
+          "line": 118,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, title: str, body: str = '', labels: Optional[List[str]] = None, assignees: Optional[List[str]] = None, issue_number: Optional[int] = None, state: Optional[str] = None) -> Dict"
+        },
+        {
+          "name": "add_issue_comment",
+          "file": "github_tools.py",
+          "line": 155,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, issue_number: int, body: str) -> Dict"
+        },
+        {
+          "name": "search_issues",
+          "file": "github_tools.py",
+          "line": 170,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(query: str, sort: str = 'created', order: str = 'desc', per_page: int = 30, page: int = 1) -> Dict"
+        },
+        {
+          "name": "list_pull_requests",
+          "file": "github_tools.py",
+          "line": 197,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, state: str = 'open', head: str = '', base: str = '', sort: str = 'created', direction: str = 'desc', per_page: int = 30, page: int = 1) -> List[Dict]"
+        },
+        {
+          "name": "pull_request_read",
+          "file": "github_tools.py",
+          "line": 231,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, pr_number: int) -> Dict"
+        },
+        {
+          "name": "create_pull_request",
+          "file": "github_tools.py",
+          "line": 261,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, title: str, head: str, base: str, body: str = '', draft: bool = False) -> Dict"
+        },
+        {
+          "name": "update_pull_request",
+          "file": "github_tools.py",
+          "line": 286,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, pr_number: int, title: Optional[str] = None, body: Optional[str] = None, state: Optional[str] = None, base: Optional[str] = None) -> Dict"
+        },
+        {
+          "name": "merge_pull_request",
+          "file": "github_tools.py",
+          "line": 316,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str, pr_number: int, merge_method: str = 'merge', commit_title: str = '', commit_message: str = '') -> Dict"
+        },
+        {
+          "name": "get_repo",
+          "file": "github_tools.py",
+          "line": 345,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(owner: str, repo: str) -> Dict"
+        },
+        {
+          "name": "search_repos",
+          "file": "github_tools.py",
+          "line": 357,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(query: str, sort: str = 'stars', order: str = 'desc', per_page: int = 30, page: int = 1) -> Dict"
+        },
+        {
+          "name": "main",
+          "file": "github_tools.py",
+          "line": 384,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "()"
+        }
+      ]
+    }
+  }
+}

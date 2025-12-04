@@ -1,0 +1,356 @@
+{
+  "skill_name": "sequential-thinking",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 2.47,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:53:49.503367",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestSequentialThinking",
+      "passed": 7,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_basic_sequential_thought",
+          "outcome": "passed",
+          "duration": 0.18,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(**simple_thought)",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['thoughtNumber'] == 1",
+            "result['totalThoughts'] == 3"
+          ]
+        },
+        {
+          "name": "test_complete_thought_sequence",
+          "outcome": "passed",
+          "duration": 0.17,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='First step', thoughtNumber=1...",
+          "assertions": [
+            "result1['complete'] is False",
+            "result2['complete'] is False",
+            "result2['thoughtsSoFar'] == 2"
+          ]
+        },
+        {
+          "name": "test_thought_with_revision",
+          "outcome": "passed",
+          "duration": 0.26,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Original approach', thoughtN...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['isRevision'] is True",
+            "result['revisesThought'] == 1"
+          ]
+        },
+        {
+          "name": "test_thought_with_branching",
+          "outcome": "passed",
+          "duration": 0.2,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Main approach', thoughtNumbe...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "'branchInfo' in result",
+            "result['branchInfo']['branchId'] == 'alternative'"
+          ]
+        },
+        {
+          "name": "test_dynamic_thought_expansion",
+          "outcome": "passed",
+          "duration": 0.21,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Initial thought', thoughtNum...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['totalThoughts'] == 5",
+            "result['thoughtNumber'] == 4"
+          ]
+        },
+        {
+          "name": "test_progress_percentage_calculation",
+          "outcome": "passed",
+          "duration": 0.17,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Middle thought', thoughtNumb...",
+          "assertions": [
+            "result['progressPercentage'] == 50.0"
+          ]
+        },
+        {
+          "name": "test_session_id_tracking",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Test thought', thoughtNumber...",
+          "assertions": [
+            "result['session_id'] == 'custom_session'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestValidation",
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_invalid_thought_number_zero",
+          "outcome": "passed",
+          "duration": 0.13,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Invalid', thoughtNumber=0, t...",
+          "assertions": [
+            "result['status'] == 'error'",
+            "'must be >= 1' in result['message']"
+          ]
+        },
+        {
+          "name": "test_invalid_thought_number_negative",
+          "outcome": "passed",
+          "duration": 0.11,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Invalid', thoughtNumber=-1, ...",
+          "assertions": [
+            "result['status'] == 'error'"
+          ]
+        },
+        {
+          "name": "test_invalid_total_thoughts_zero",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Invalid', thoughtNumber=1, t...",
+          "assertions": [
+            "result['status'] == 'error'",
+            "'must be >= 1' in result['message']"
+          ]
+        },
+        {
+          "name": "test_thought_exceeds_total_without_expansion",
+          "outcome": "passed",
+          "duration": 0.13,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Exceeds total', thoughtNumbe...",
+          "assertions": [
+            "result['status'] == 'error'",
+            "'exceeds totalThoughts' in result['message']"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestThoughtHistory",
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_empty_history",
+          "outcome": "passed",
+          "duration": 0.17,
+          "method": "get_thought_history",
+          "snippet": "sequential_thinking.get_thought_history()",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['thoughtCount'] == 0",
+            "result['thoughts'] == []"
+          ]
+        },
+        {
+          "name": "test_history_with_thoughts",
+          "outcome": "passed",
+          "duration": 0.15,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='First', thoughtNumber=1, tot...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['thoughtCount'] == 2",
+            "len(result['thoughts']) == 2"
+          ]
+        },
+        {
+          "name": "test_history_with_branches",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Main', thoughtNumber=1, tota...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "'branches' in result",
+            "'alt' in result['branches']"
+          ]
+        },
+        {
+          "name": "test_history_exclude_branches",
+          "outcome": "passed",
+          "duration": 0.16,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Main', thoughtNumber=1, tota...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "'branches' not in result"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestSessionManagement",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_separate_sessions_isolated",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Session A thought', thoughtN...",
+          "assertions": [
+            "history_a['thoughtCount'] == 1",
+            "history_a['thoughts'][0]['thought'] == 'Session A thought'",
+            "history_b['thoughtCount'] == 1"
+          ]
+        },
+        {
+          "name": "test_default_session",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Default session', thoughtNum...",
+          "assertions": [
+            "result['thoughtCount'] == 1",
+            "result['session_id'] == 'default'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestClearHistory",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_clear_default_session",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Test', thoughtNumber=1, tota...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "result['session_id'] == 'default'",
+            "history['thoughtCount'] == 0"
+          ]
+        },
+        {
+          "name": "test_clear_specific_session",
+          "outcome": "passed",
+          "duration": 0.14,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Session A', thoughtNumber=1,...",
+          "assertions": [
+            "result['status'] == 'success'",
+            "history_a['thoughtCount'] == 0",
+            "history_b['thoughtCount'] == 1"
+          ]
+        },
+        {
+          "name": "test_clear_nonexistent_session",
+          "outcome": "passed",
+          "duration": 0.11,
+          "method": "clear_history",
+          "snippet": "sequential_thinking.clear_history(session_id='nonexistent')",
+          "assertions": [
+            "result['status'] == 'success'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TestExportSession",
+      "passed": 4,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_export_json_format",
+          "outcome": "passed",
+          "duration": 0.49,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Export test', thoughtNumber=...",
+          "assertions": [
+            "filepath.endswith('.json')",
+            "os.path.exists(filepath)",
+            "data['session_id'] == 'export_test'"
+          ]
+        },
+        {
+          "name": "test_export_markdown_format",
+          "outcome": "passed",
+          "duration": 0.87,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Export markdown test', thoug...",
+          "assertions": [
+            "filepath.endswith('.md')",
+            "os.path.exists(filepath)",
+            "'# Sequential Thinking Session' in content"
+          ]
+        },
+        {
+          "name": "test_export_with_branches",
+          "outcome": "passed",
+          "duration": 0.66,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Main', thoughtNumber=1, tota...",
+          "assertions": [
+            "'branches' in data",
+            "'alt' in data['branches']"
+          ]
+        },
+        {
+          "name": "test_export_invalid_format",
+          "outcome": "passed",
+          "duration": 0.16,
+          "method": "export_thinking_session",
+          "snippet": "sequential_thinking.export_thinking_session(format='invalid')"
+        }
+      ]
+    },
+    {
+      "name": "TestStatistics",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_completion_statistics",
+          "outcome": "passed",
+          "duration": 0.15,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='First', thoughtNumber=1, tot...",
+          "assertions": [
+            "history['thoughtCount'] == 3"
+          ]
+        },
+        {
+          "name": "test_revision_counting",
+          "outcome": "passed",
+          "duration": 0.26,
+          "method": "sequential_thinking",
+          "snippet": "sequential_thinking.sequential_thinking(thought='Original', thoughtNumber=1, ...",
+          "assertions": [
+            "revisions == 2"
+          ]
+        }
+      ]
+    }
+  ]
+}

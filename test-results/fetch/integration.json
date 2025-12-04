@@ -1,0 +1,75 @@
+{
+  "skill_name": "fetch",
+  "score": 30,
+  "max_score": 30,
+  "grade": "A",
+  "tests": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0,
+    "errors": 0
+  },
+  "elapsed_seconds": 11.27,
+  "status": "passed",
+  "timestamp": "2025-11-21T10:54:00.953717",
+  "run_type": "integration",
+  "categories": [
+    {
+      "name": "TestFetchMCP",
+      "passed": 10,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "test_fetch_public_url",
+          "outcome": "passed",
+          "duration": 818.53
+        },
+        {
+          "name": "test_fetch_invalid_url",
+          "outcome": "passed",
+          "duration": 722.5
+        },
+        {
+          "name": "test_fetch_malformed_url",
+          "outcome": "passed",
+          "duration": 605.98
+        },
+        {
+          "name": "test_fetch_with_max_length",
+          "outcome": "passed",
+          "duration": 573.84
+        },
+        {
+          "name": "test_list_tools",
+          "outcome": "passed",
+          "duration": 592.67
+        },
+        {
+          "name": "test_fetch_public_url",
+          "outcome": "passed",
+          "duration": 588.69
+        },
+        {
+          "name": "test_fetch_invalid_url",
+          "outcome": "passed",
+          "duration": 680.72
+        },
+        {
+          "name": "test_fetch_malformed_url",
+          "outcome": "passed",
+          "duration": 653.66
+        },
+        {
+          "name": "test_fetch_with_max_length",
+          "outcome": "passed",
+          "duration": 689.51
+        },
+        {
+          "name": "test_list_tools",
+          "outcome": "passed",
+          "duration": 628.46
+        }
+      ]
+    }
+  ]
+}

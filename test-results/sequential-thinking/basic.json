@@ -1,0 +1,174 @@
+{
+  "skill_name": "sequential-thinking",
+  "skill_path": "C:\\data\\projects\\skills\\sequential-thinking",
+  "description": "Dynamic and reflective problem-solving through structured thought sequences. Break down complex problems into manageable steps with revision and branching capabilities. Based on the popular @modelcontextprotocol/server-sequential-thinking MCP server.",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [
+            "references/",
+            "assets/"
+          ],
+          "missing": [
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 6,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 9847,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": false,
+          "missing_sections": [
+            "setup/installation docs"
+          ]
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "sequential_thinking.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "sequential_thinking.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 4,
+        "documented_only": 0,
+        "implemented_only": 1
+      }
+    }
+  },
+  "total": 39,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "clear_history",
+      "export_thinking_session",
+      "get_thought_history",
+      "sequential_thinking"
+    ],
+    "comparison": {
+      "documented_count": 4,
+      "implemented_count": 5,
+      "total_functions": 6,
+      "matched": [
+        "clear_history",
+        "export_thinking_session",
+        "get_thought_history",
+        "sequential_thinking"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_state"
+      ],
+      "all_implemented": [
+        {
+          "name": "get_state",
+          "file": "sequential_thinking.py",
+          "line": 52,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(session_id: Optional[str] = None) -> SequentialThinkingState"
+        },
+        {
+          "name": "clear_history",
+          "file": "sequential_thinking.py",
+          "line": 63,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(session_id: Optional[str] = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "sequential_thinking",
+          "file": "sequential_thinking.py",
+          "line": 78,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(thought: str, thoughtNumber: int, totalThoughts: int, nextThoughtNeeded: bool, isRevision: bool = False, revisesThought: Optional[int] = None, branchFromThought: Optional[int] = None, branchId: Optional[str] = None, needsMoreThoughts: bool = False, session_id: Optional[str] = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "get_thought_history",
+          "file": "sequential_thinking.py",
+          "line": 231,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(session_id: Optional[str] = None, include_branches: bool = True) -> Dict[str, Any]"
+        },
+        {
+          "name": "export_thinking_session",
+          "file": "sequential_thinking.py",
+          "line": 261,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(session_id: Optional[str] = None, format: str = 'json') -> str"
+        },
+        {
+          "name": "__post_init__",
+          "file": "sequential_thinking.py",
+          "line": 43,
+          "is_method": true,
+          "class_name": "SequentialThinkingState",
+          "has_docstring": false,
+          "is_private": true,
+          "signature": "(self)"
+        }
+      ]
+    }
+  }
+}

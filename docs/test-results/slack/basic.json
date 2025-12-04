@@ -1,0 +1,229 @@
+{
+  "skill_name": "slack",
+  "skill_path": "C:\\data\\projects\\skills\\slack",
+  "description": "Comprehensive Slack workspace integration for messaging, channel management, user interactions, and workspace automation",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 11,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "documentation": 3,
+        "documentation_details": {
+          "length": 1879,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "slack_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "slack_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 7,
+        "documented_only": 0,
+        "implemented_only": 2
+      }
+    }
+  },
+  "total": 38,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)",
+    "Expand SKILL.md content (currently < 2000 characters)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "add_reaction",
+      "get_channel_history",
+      "get_user_profile",
+      "list_channels",
+      "list_users",
+      "post_message",
+      "search_messages"
+    ],
+    "comparison": {
+      "documented_count": 7,
+      "implemented_count": 9,
+      "total_functions": 11,
+      "matched": [
+        "add_reaction",
+        "get_channel_history",
+        "get_user_profile",
+        "list_channels",
+        "list_users",
+        "post_message",
+        "search_messages"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_channel_info",
+        "main"
+      ],
+      "all_implemented": [
+        {
+          "name": "main",
+          "file": "slack_tools.py",
+          "line": 47,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "()"
+        },
+        {
+          "name": "__init__",
+          "file": "slack_tools.py",
+          "line": 10,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": true,
+          "signature": "(self, bot_token: str)"
+        },
+        {
+          "name": "_req",
+          "file": "slack_tools.py",
+          "line": 13,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": true,
+          "signature": "(self, method: str, endpoint: str, **kw)"
+        },
+        {
+          "name": "list_channels",
+          "file": "slack_tools.py",
+          "line": 19,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, types: str = 'public_channel,private_channel', limit: int = 100)"
+        },
+        {
+          "name": "get_channel_info",
+          "file": "slack_tools.py",
+          "line": 22,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, channel_id: str)"
+        },
+        {
+          "name": "post_message",
+          "file": "slack_tools.py",
+          "line": 25,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, channel_id: str, text: str, thread_ts: Optional[str] = None)"
+        },
+        {
+          "name": "get_channel_history",
+          "file": "slack_tools.py",
+          "line": 30,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, channel_id: str, limit: int = 100, oldest: Optional[str] = None)"
+        },
+        {
+          "name": "add_reaction",
+          "file": "slack_tools.py",
+          "line": 35,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, channel_id: str, timestamp: str, reaction: str)"
+        },
+        {
+          "name": "list_users",
+          "file": "slack_tools.py",
+          "line": 38,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, limit: int = 100)"
+        },
+        {
+          "name": "get_user_profile",
+          "file": "slack_tools.py",
+          "line": 41,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, user_id: str)"
+        },
+        {
+          "name": "search_messages",
+          "file": "slack_tools.py",
+          "line": 44,
+          "is_method": true,
+          "class_name": "SlackClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, query: str, count: int = 20)"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,489 @@
+{
+  "skill_name": "playwright",
+  "skill_path": "C:\\data\\projects\\skills\\playwright",
+  "description": "Browser automation for web debugging, testing, and inspection using Playwright. Navigate pages, take screenshots, read console logs, execute JavaScript, and interact with elements.",
+  "scores": {
+    "structure": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 2,
+        "frontmatter_details": "complete",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "function_count": 34,
+        "stub_count": 19,
+        "implemented_count": 15,
+        "has_functions": 2,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 8533,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "browser_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "browser_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 14,
+        "documented_only": 0,
+        "implemented_only": 20
+      }
+    }
+  },
+  "total": 40,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [],
+  "recommendations": [
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "browser_click",
+      "browser_close",
+      "browser_console_messages",
+      "browser_evaluate",
+      "browser_hover",
+      "browser_navigate",
+      "browser_navigate_back",
+      "browser_press_key",
+      "browser_resize",
+      "browser_screenshot",
+      "browser_select_option",
+      "browser_snapshot",
+      "browser_type",
+      "browser_wait_for"
+    ],
+    "comparison": {
+      "documented_count": 14,
+      "implemented_count": 34,
+      "total_functions": 34,
+      "matched": [
+        "browser_click",
+        "browser_close",
+        "browser_console_messages",
+        "browser_evaluate",
+        "browser_hover",
+        "browser_navigate",
+        "browser_navigate_back",
+        "browser_press_key",
+        "browser_resize",
+        "browser_screenshot",
+        "browser_select_option",
+        "browser_snapshot",
+        "browser_type",
+        "browser_wait_for"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "browser_drag",
+        "browser_file_upload",
+        "browser_fill_form",
+        "browser_generate_locator",
+        "browser_handle_dialog",
+        "browser_install",
+        "browser_mouse_click_xy",
+        "browser_mouse_drag_xy",
+        "browser_mouse_move_xy",
+        "browser_network_requests",
+        "browser_pdf_save",
+        "browser_run_code",
+        "browser_start_tracing",
+        "browser_stop_tracing",
+        "browser_tabs",
+        "browser_verify_element_visible",
+        "browser_verify_list_visible",
+        "browser_verify_text_visible",
+        "browser_verify_value",
+        "on_console"
+      ],
+      "all_implemented": [
+        {
+          "name": "browser_navigate",
+          "file": "browser_tools.py",
+          "line": 62,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(url: str, timeout: int = 30000) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_close",
+          "file": "browser_tools.py",
+          "line": 84,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_navigate_back",
+          "file": "browser_tools.py",
+          "line": 108,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_screenshot",
+          "file": "browser_tools.py",
+          "line": 125,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(filename: str = '', fullPage: bool = False, element: str = '', ref: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_console_messages",
+          "file": "browser_tools.py",
+          "line": 167,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(onlyErrors: bool = False) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_evaluate",
+          "file": "browser_tools.py",
+          "line": 185,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(function: str, element: str = '', ref: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_snapshot",
+          "file": "browser_tools.py",
+          "line": 214,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_click",
+          "file": "browser_tools.py",
+          "line": 231,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str, doubleClick: bool = False, button: str = 'left', modifiers: List = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_type",
+          "file": "browser_tools.py",
+          "line": 257,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str, text: str, submit: bool = False, slowly: bool = False) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_hover",
+          "file": "browser_tools.py",
+          "line": 288,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_select_option",
+          "file": "browser_tools.py",
+          "line": 307,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str, values: List) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_press_key",
+          "file": "browser_tools.py",
+          "line": 327,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(key: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_wait_for",
+          "file": "browser_tools.py",
+          "line": 345,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(time: float = 0, text: str = '', textGone: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_resize",
+          "file": "browser_tools.py",
+          "line": 374,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(width: int, height: int) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_drag",
+          "file": "browser_tools.py",
+          "line": 397,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(startElement: str, startRef: str, endElement: str, endRef: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_file_upload",
+          "file": "browser_tools.py",
+          "line": 402,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(paths: List = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_fill_form",
+          "file": "browser_tools.py",
+          "line": 407,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(fields: List) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_generate_locator",
+          "file": "browser_tools.py",
+          "line": 412,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_handle_dialog",
+          "file": "browser_tools.py",
+          "line": 417,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(accept: bool, promptText: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_install",
+          "file": "browser_tools.py",
+          "line": 422,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_mouse_click_xy",
+          "file": "browser_tools.py",
+          "line": 427,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, x: float, y: float) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_mouse_drag_xy",
+          "file": "browser_tools.py",
+          "line": 432,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, startX: float, startY: float, endX: float, endY: float) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_mouse_move_xy",
+          "file": "browser_tools.py",
+          "line": 437,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, x: float, y: float) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_network_requests",
+          "file": "browser_tools.py",
+          "line": 442,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_pdf_save",
+          "file": "browser_tools.py",
+          "line": 447,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(filename: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_run_code",
+          "file": "browser_tools.py",
+          "line": 452,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(code: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_start_tracing",
+          "file": "browser_tools.py",
+          "line": 457,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_stop_tracing",
+          "file": "browser_tools.py",
+          "line": 462,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_tabs",
+          "file": "browser_tools.py",
+          "line": 467,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(action: str, index: int = 0) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_verify_element_visible",
+          "file": "browser_tools.py",
+          "line": 472,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(role: str, accessibleName: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_verify_list_visible",
+          "file": "browser_tools.py",
+          "line": 477,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(element: str, ref: str, items: List) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_verify_text_visible",
+          "file": "browser_tools.py",
+          "line": 482,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(text: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "browser_verify_value",
+          "file": "browser_tools.py",
+          "line": 487,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(type: str, element: str, ref: str, value: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "on_console",
+          "file": "browser_tools.py",
+          "line": 37,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(msg)"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "skill_name": "semgrep",
+  "skill_path": "C:\\data\\projects\\skills\\semgrep",
+  "description": "Static analysis security scanning with Semgrep",
+  "scores": {
+    "structure": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 2,
+        "frontmatter_details": "complete",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 3,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 5332,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "semgrep_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "semgrep_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 4.3,
+      "max": 10,
+      "breakdown": {
+        "matched": 1,
+        "documented_only": 2,
+        "implemented_only": 2
+      }
+    }
+  },
+  "total": 34.3,
+  "max_total": 40,
+  "grade": "B",
+  "issues": [],
+  "recommendations": [
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "failed",
+      "get_available_rulesets",
+      "passed"
+    ],
+    "comparison": {
+      "documented_count": 3,
+      "implemented_count": 3,
+      "total_functions": 3,
+      "matched": [
+        "get_available_rulesets"
+      ],
+      "documented_only": [
+        "failed",
+        "passed"
+      ],
+      "implemented_only": [
+        "parse_findings",
+        "scan_code"
+      ],
+      "all_implemented": [
+        {
+          "name": "scan_code",
+          "file": "semgrep_tools.py",
+          "line": 18,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(target_path: str, rules: Optional[List[str]] = None, timeout: int = 300) -> Dict[str, Any]"
+        },
+        {
+          "name": "parse_findings",
+          "file": "semgrep_tools.py",
+          "line": 126,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(scan_results: Dict[str, Any]) -> Dict[str, Any]"
+        },
+        {
+          "name": "get_available_rulesets",
+          "file": "semgrep_tools.py",
+          "line": 192,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> List[Dict[str, str]]"
+        }
+      ]
+    }
+  }
+}

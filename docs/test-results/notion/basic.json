@@ -1,0 +1,296 @@
+{
+  "skill_name": "notion",
+  "skill_path": "C:\\data\\projects\\skills\\notion",
+  "description": "Notion workspace integration for searching, creating, and managing pages, databases, and collaborative content",
+  "scores": {
+    "structure": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 2,
+        "frontmatter_details": "complete",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 17,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 13154,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "notion_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "notion_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10.0,
+      "max": 10,
+      "breakdown": {
+        "matched": 14,
+        "documented_only": 0,
+        "implemented_only": 0
+      }
+    }
+  },
+  "total": 40.0,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [],
+  "recommendations": [
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "notion_create_comment",
+      "notion_create_database",
+      "notion_create_pages",
+      "notion_duplicate_page",
+      "notion_fetch",
+      "notion_get_comments",
+      "notion_get_self",
+      "notion_get_teams",
+      "notion_get_user",
+      "notion_get_users",
+      "notion_move_pages",
+      "notion_search",
+      "notion_update_database",
+      "notion_update_page"
+    ],
+    "comparison": {
+      "documented_count": 14,
+      "implemented_count": 14,
+      "total_functions": 17,
+      "matched": [
+        "notion_create_comment",
+        "notion_create_database",
+        "notion_create_pages",
+        "notion_duplicate_page",
+        "notion_fetch",
+        "notion_get_comments",
+        "notion_get_self",
+        "notion_get_teams",
+        "notion_get_user",
+        "notion_get_users",
+        "notion_move_pages",
+        "notion_search",
+        "notion_update_database",
+        "notion_update_page"
+      ],
+      "documented_only": [],
+      "implemented_only": [],
+      "all_implemented": [
+        {
+          "name": "_get_headers",
+          "file": "notion_tools.py",
+          "line": 24,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "() -> Dict[str, str]"
+        },
+        {
+          "name": "_make_request",
+          "file": "notion_tools.py",
+          "line": 37,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "(method: str, endpoint: str, data: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "_extract_page_id",
+          "file": "notion_tools.py",
+          "line": 68,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "(page_id: str) -> str"
+        },
+        {
+          "name": "notion_search",
+          "file": "notion_tools.py",
+          "line": 91,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(query: str, filter: Dict = None, sort: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_fetch",
+          "file": "notion_tools.py",
+          "line": 112,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_create_pages",
+          "file": "notion_tools.py",
+          "line": 134,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(parent: Dict, properties: Dict, children: List = None, icon: Dict = None, cover: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_update_page",
+          "file": "notion_tools.py",
+          "line": 162,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str, properties: Dict = None, archived: bool = None, icon: Dict = None, cover: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_move_pages",
+          "file": "notion_tools.py",
+          "line": 191,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str, parent: Dict) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_create_database",
+          "file": "notion_tools.py",
+          "line": 208,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(parent: Dict, properties: Dict, title: List = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_update_database",
+          "file": "notion_tools.py",
+          "line": 230,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(database_id: str, title: List = None, description: List = None, properties: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_create_comment",
+          "file": "notion_tools.py",
+          "line": 256,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str, rich_text: List) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_get_comments",
+          "file": "notion_tools.py",
+          "line": 277,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str, start_cursor: str = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_get_teams",
+          "file": "notion_tools.py",
+          "line": 297,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_get_users",
+          "file": "notion_tools.py",
+          "line": 312,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(start_cursor: str = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_get_user",
+          "file": "notion_tools.py",
+          "line": 329,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(user_id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_get_self",
+          "file": "notion_tools.py",
+          "line": 342,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        },
+        {
+          "name": "notion_duplicate_page",
+          "file": "notion_tools.py",
+          "line": 352,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(page_id: str) -> Dict[str, Any]"
+        }
+      ]
+    }
+  }
+}

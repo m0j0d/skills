@@ -1,0 +1,238 @@
+{
+  "skill_name": "linear",
+  "skill_path": "C:\\data\\projects\\skills\\linear",
+  "description": "Linear project management integration for creating, updating, and managing issues, projects, and teams",
+  "scores": {
+    "structure": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 2,
+        "frontmatter_details": "complete",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 12,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 4,
+        "documentation_details": {
+          "length": 11998,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "linear_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "linear_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10.0,
+      "max": 10,
+      "breakdown": {
+        "matched": 10,
+        "documented_only": 0,
+        "implemented_only": 0
+      }
+    }
+  },
+  "total": 40.0,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [],
+  "recommendations": [
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "linear_add_comment",
+      "linear_create_issue",
+      "linear_create_project",
+      "linear_get_issue",
+      "linear_get_team",
+      "linear_get_user_issues",
+      "linear_list_projects",
+      "linear_list_teams",
+      "linear_search_issues",
+      "linear_update_issue"
+    ],
+    "comparison": {
+      "documented_count": 10,
+      "implemented_count": 10,
+      "total_functions": 12,
+      "matched": [
+        "linear_add_comment",
+        "linear_create_issue",
+        "linear_create_project",
+        "linear_get_issue",
+        "linear_get_team",
+        "linear_get_user_issues",
+        "linear_list_projects",
+        "linear_list_teams",
+        "linear_search_issues",
+        "linear_update_issue"
+      ],
+      "documented_only": [],
+      "implemented_only": [],
+      "all_implemented": [
+        {
+          "name": "_get_headers",
+          "file": "linear_tools.py",
+          "line": 23,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "() -> Dict[str, str]"
+        },
+        {
+          "name": "_make_request",
+          "file": "linear_tools.py",
+          "line": 35,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": true,
+          "signature": "(query: str, variables: Dict = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_create_issue",
+          "file": "linear_tools.py",
+          "line": 69,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(title: str, teamId: str, description: str = '', priority: int = 0, status: str = '', assigneeId: str = '', projectId: str = '', labels: List = None) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_update_issue",
+          "file": "linear_tools.py",
+          "line": 136,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(id: str, title: str = '', description: str = '', priority: int = None, status: str = '', assigneeId: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_search_issues",
+          "file": "linear_tools.py",
+          "line": 190,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(query: str = '', teamId: str = '', status: str = '', assigneeId: str = '', labels: List = None, priority: int = None, limit: int = 10) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_get_issue",
+          "file": "linear_tools.py",
+          "line": 262,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(id: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_get_user_issues",
+          "file": "linear_tools.py",
+          "line": 324,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(userId: str = '', includeArchived: bool = False, limit: int = 50) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_add_comment",
+          "file": "linear_tools.py",
+          "line": 374,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(issueId: str, body: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_create_project",
+          "file": "linear_tools.py",
+          "line": 415,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(name: str, teamId: str, description: str = '', state: str = 'planned', targetDate: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_list_projects",
+          "file": "linear_tools.py",
+          "line": 465,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(teamId: str = '', state: str = '') -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_get_team",
+          "file": "linear_tools.py",
+          "line": 512,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(teamId: str) -> Dict[str, Any]"
+        },
+        {
+          "name": "linear_list_teams",
+          "file": "linear_tools.py",
+          "line": 558,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "() -> Dict[str, Any]"
+        }
+      ]
+    }
+  }
+}

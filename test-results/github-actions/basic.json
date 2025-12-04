@@ -1,0 +1,229 @@
+{
+  "skill_name": "github-actions",
+  "skill_path": "C:\\data\\projects\\skills\\github-actions",
+  "description": "GitHub Actions workflow management including triggering, monitoring, analyzing runs, and managing CI/CD pipelines directly from AI assistants",
+  "scores": {
+    "structure": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 1,
+        "frontmatter_details": "missing: tags",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": [
+            "references/",
+            "assets/",
+            "tests/"
+          ]
+        }
+      }
+    },
+    "functionality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 2,
+        "function_count": 11,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 9,
+      "max": 10,
+      "breakdown": {
+        "documentation": 3,
+        "documentation_details": {
+          "length": 1868,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [
+            "github_actions_tools.py"
+          ],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [
+            "github_actions_tools.py"
+          ],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "matched": 7,
+        "documented_only": 0,
+        "implemented_only": 2
+      }
+    }
+  },
+  "total": 38,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [
+    "Frontmatter missing: tags"
+  ],
+  "recommendations": [
+    "Add missing frontmatter fields: tags",
+    "Fix import errors - ensure all modules are importable",
+    "Add more callable functions (currently has fewer than 5)",
+    "Expand SKILL.md content (currently < 2000 characters)"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "cancel_workflow_run",
+      "get_workflow_logs",
+      "get_workflow_run",
+      "list_workflow_runs",
+      "list_workflows",
+      "rerun_workflow",
+      "trigger_workflow"
+    ],
+    "comparison": {
+      "documented_count": 7,
+      "implemented_count": 9,
+      "total_functions": 11,
+      "matched": [
+        "cancel_workflow_run",
+        "get_workflow_logs",
+        "get_workflow_run",
+        "list_workflow_runs",
+        "list_workflows",
+        "rerun_workflow",
+        "trigger_workflow"
+      ],
+      "documented_only": [],
+      "implemented_only": [
+        "get_workflow",
+        "main"
+      ],
+      "all_implemented": [
+        {
+          "name": "main",
+          "file": "github_actions_tools.py",
+          "line": 51,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "()"
+        },
+        {
+          "name": "__init__",
+          "file": "github_actions_tools.py",
+          "line": 13,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": true,
+          "signature": "(self, token: str)"
+        },
+        {
+          "name": "_req",
+          "file": "github_actions_tools.py",
+          "line": 17,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": true,
+          "signature": "(self, method: str, path: str, **kw) -> requests.Response"
+        },
+        {
+          "name": "list_workflows",
+          "file": "github_actions_tools.py",
+          "line": 21,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str) -> List[Dict]"
+        },
+        {
+          "name": "get_workflow",
+          "file": "github_actions_tools.py",
+          "line": 24,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, workflow_id: str) -> Dict"
+        },
+        {
+          "name": "trigger_workflow",
+          "file": "github_actions_tools.py",
+          "line": 27,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, workflow_id: str, ref: str, inputs: Optional[Dict] = None) -> None"
+        },
+        {
+          "name": "list_workflow_runs",
+          "file": "github_actions_tools.py",
+          "line": 32,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, workflow_id: Optional[str] = None, status: Optional[str] = None) -> List[Dict]"
+        },
+        {
+          "name": "get_workflow_run",
+          "file": "github_actions_tools.py",
+          "line": 39,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, run_id: str) -> Dict"
+        },
+        {
+          "name": "cancel_workflow_run",
+          "file": "github_actions_tools.py",
+          "line": 42,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, run_id: str) -> None"
+        },
+        {
+          "name": "rerun_workflow",
+          "file": "github_actions_tools.py",
+          "line": 45,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, run_id: str) -> None"
+        },
+        {
+          "name": "get_workflow_logs",
+          "file": "github_actions_tools.py",
+          "line": 48,
+          "is_method": true,
+          "class_name": "GitHubActionsClient",
+          "has_docstring": false,
+          "is_private": false,
+          "signature": "(self, owner: str, repo: str, run_id: str) -> bytes"
+        }
+      ]
+    }
+  }
+}
