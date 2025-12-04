@@ -1,26 +1,18 @@
 # Skills for Claude Code
 
-**Lightweight skills that call APIs directly, avoiding MCP context overhead.**
-
-MCP servers are powerful, but running multiple servers (Jira, GitHub, Slack, etc.) can quickly fill your context window. This project explores an alternative: lightweight skills that call APIs directly, bypassing MCP entirely.
-
-**What's here:**
-- 12 skills (early development, seeking feedback)
-- Security scanned with Semgrep
-- Built from well-documented APIs
-
-**How it works:**
-Skills are generated from MCP server patterns, converted to direct API calls. Each skill is a Python script that Claude Code can invoke.
-
-**Status:** Early release - seeking feedback on approach and real-world usage.
-
-**Want to help?** Try a skill, report what works (or doesn't), suggest improvements. This approach needs validation from real users.
-
----
+Lightweight Python skills for Claude Code that call APIs directly, avoiding MCP server overhead.
 
 ## Available Skills
 
-**[View the full dashboard with validation scores →](https://m0j0d.github.io/skills/)**
+**[→ View dashboard with validation scores](https://m0j0d.github.io/skills/)**
+
+12 skills including GitHub, Slack, Jira, Playwright, Memory, and more.
+
+---
+
+## Quick Start
+
+**New to skills?** Try **[sequential-thinking](sequential-thinking/)** first - no API keys needed.
 
 ---
 
@@ -41,49 +33,6 @@ Skill: Claude → Python Script → REST API
 **Hypothesis:** For individual developers with standard APIs, skills may be simpler.
 
 **Read the analysis:** [WHY-SKILLS.md](WHY-SKILLS.md) | [30+ case studies →](SKILLS-VS-MCP-ANALYSIS.md)
-
----
-
-## What Are Skills?
-
-Skills are Python-based extensions that give Claude Code access to external tools, APIs, and services. They're lightweight wrappers around well-documented APIs.
-
-**Key benefits:**
-- 🔒 **Secure** - No hardcoded secrets, environment variable based
-- ✅ **Tested** - Automated validation with static analysis ([see reports](test-results/))
-- 📚 **Documented** - Clear setup and usage instructions
-- ⚡ **Efficient** - Lower token overhead than MCP servers
-
-**Example:** The GitHub skill provides repository management, issues, PRs, and comments - everything the MCP server does, without running a separate process.
-
----
-
-## The Generator Behind This
-
-**These skills aren't hand-written - they're generated.**
-
-We use a generator that converts MCP servers into skills through a systematic 4-step process: **Research** MCP capabilities → **Generate** Python wrappers → **Validate** with tests + security scans → **Document** setup and usage.
-
-**How you can help now:**
-- Try skills and report what works (or doesn't)
-- Request skills you need - we prioritize based on demand
-- Share use cases and workflows
-- Suggest improvements to documentation
-
-**What we're working toward:**
-- Sharing the generator for creating skills
-- Tools to help validate and test new skills
-- A contributor pipeline for community-created skills
-
-**Why progressive release?** The generator needs to work reliably before sharing it. We're actively developing this and will open-source the foundational pieces as they mature.
-
-**The vision:** A community-runnable pipeline where anyone can contribute skills, validate them, and improve the generator.
-
----
-
-## Getting Started
-
-**New to Skills?** Try **[sequential-thinking](sequential-thinking/)** first - it demonstrates structured problem-solving without requiring API keys or external dependencies. Great for understanding how skills work.
 
 ---
 
