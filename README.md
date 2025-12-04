@@ -18,6 +18,12 @@ Skills are generated from MCP server patterns, converted to direct API calls. Ea
 
 ---
 
+## Available Skills
+
+**[View the full dashboard with validation scores →](https://m0j0d.github.io/skills/)**
+
+---
+
 ## 🤔 Why Skills Over MCP Servers?
 
 **If most MCP servers just wrap well-documented APIs, why run a separate server process?**
@@ -112,14 +118,6 @@ export TWITTER_API_KEY="your-key-here"
 ```
 
 See each skill's documentation for specific setup requirements.
-
----
-
-## Available Skills
-
-**[View the full dashboard with validation scores →](https://m0j0d.github.io/skills/)**
-
-12 skills available, including GitHub, Slack, Jira, Playwright, and more. Each skill includes validation scores, security scans, and integration test results.
 
 ---
 
