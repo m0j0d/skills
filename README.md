@@ -1,6 +1,6 @@
 # Skills for Claude Code
 
-Lightweight Python skills for Claude Code that call APIs directly, avoiding MCP server overhead.
+Lightweight Python skills for Claude Code with direct API calls - simple installation, quality validation.
 
 ## Available Skills
 
@@ -16,25 +16,25 @@ Lightweight Python skills for Claude Code that call APIs directly, avoiding MCP 
 
 ---
 
-## 🤔 Skills vs MCP Servers
+## 🤔 Skills AND MCP Servers: When to Use Each
 
-**Skills work alongside MCP servers** - use what fits your workflow.
+**Skills and MCP servers complement each other** - use what fits your workflow.
 
 ```
 MCP:   Claude → JSON-RPC → MCP Server → REST API
 Skill: Claude → Python Script → REST API
 ```
 
-**When skills might be simpler:**
-- 🚀 **Direct integration** - No JSON-RPC layer
+**When to use skills:**
+- 🚀 **Personal automation** - Quick setup for your own workflows
 - 🎯 **Edit and debug** - Files you can modify directly
 - 🔧 **No server process** - Just Python scripts
-- ⚡ **Lazy loading** - Context loaded on-demand
+- 📊 **Quality validation** - Transparent scores and testing
 
-**When MCP is better:**
-- Multi-platform support (not just Claude Code)
-- Enterprise deployment with central credentials
-- Persistent connections (WebSockets, DB pools)
+**When to use MCP:**
+- Multi-platform support (VS Code, other editors)
+- Teams and enterprise (central credentials)
+- Persistent connections (databases, WebSockets)
 
 **Read more:** [WHY-SKILLS.md](WHY-SKILLS.md)
 

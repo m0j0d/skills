@@ -60,7 +60,7 @@ Both work. The right choice depends on your constraints.
 **Pros:**
 - Simpler architecture (no server, no JSON-RPC)
 - Edit files directly for customization/debugging
-- Lazy loading (only loads what you use)
+- Quality validation with transparent scores
 - Zero infrastructure (just Python + pip)
 
 **Cons:**
@@ -79,29 +79,20 @@ Both work. The right choice depends on your constraints.
 
 **Cons:**
 - Requires server process + JSON-RPC layer
-- All tools loaded into context regardless of use
-- Harder to customize (rebuild required)
+- Harder to customize without rebuilding
 - More infrastructure complexity
 
 ---
 
-## Context & Performance
-
-**Context loading:**
-- Skills: ~100 tokens metadata per skill (lazy load details)
-- MCP: All tool descriptions loaded upfront
-
-**Example (5 integrations):**
-- Skills: ~500 tokens baseline
-- MCP: Variable depending on tool count/descriptions
-
-**Note:** Actual efficiency depends on your usage pattern. Lazy loading helps when you have many integrations but use few at once.
+## Performance & Latency
 
 **Latency:**
 - Both add minimal overhead over direct API calls
-- MCP has JSON-RPC layer (~few ms)
-- Skills have Python import/execution (~few ms)
-- Real bottleneck is the API call itself (100-500ms typically)
+- MCP: JSON-RPC layer (~few ms)
+- Skills: Python import/execution (~few ms)
+- Real bottleneck: The API call itself (100-500ms typically)
+
+**Note:** Performance differences are negligible for typical use cases. Choose based on workflow fit, not performance.
 
 ---
 
