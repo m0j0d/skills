@@ -127,18 +127,16 @@ They're not mutually exclusive.
 
 ## This Repository
 
-Contains **12 skill conversions** from popular MCP servers:
+Contains **13 skills** covering common developer workflows:
 
 | Skill | Type | API Pattern |
 |-------|------|-------------|
-| fetch, memory, sequential-thinking, semgrep | Local/utility | No external API or simple wrapper |
+| fetch, memory, sequential-thinking, semgrep, sqlite | Local/utility | No external API or simple wrapper |
 | github, jira, linear, notion, slack, twitter | REST/GraphQL | Standard CRUD operations |
 | github-actions | REST | CI/CD operations |
 | playwright | Library wrapper | Browser automation |
 
-**Status:** Experimental. Most are lightly tested in real workflows.
-
-**Hypothesis:** For individual developers using Claude Code with standard APIs, skills may offer simpler architecture with less overhead.
+Each skill is scored on a 3-layer system (safety gate, static pre-flight, behavioral eval). See the [dashboard](https://m0j0d.github.io/skills/) for current scores.
 
 ---
 
@@ -166,13 +164,10 @@ Ask yourself:
 
 **Skills:**
 - Simpler for individual developers with Claude Code
-- Experimental approach (this repo is testing viability)
 - Less infrastructure, but Claude Code only
 
 **Both are valid.** Use what works for your situation. You can even use both together.
 
 ---
-
-**This is an experiment:** We're testing whether the skill conversion pattern is viable for standard API wrappers. Early results suggest it works for many cases, but MCP remains the right choice for others.
 
 **Feedback welcome:** [Report issues or share experience](https://github.com/m0j0d/skills/issues)

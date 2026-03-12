@@ -74,8 +74,37 @@ def scan_code(
     except Exception as e:
         raise ValueError("Invalid path: " + str(e))
 
+    # Find semgrep executable - try PATH first, then common install locations
+    import shutil
+    semgrep_cmd = shutil.which('semgrep') or shutil.which('pysemgrep')
+    if not semgrep_cmd:
+        # Check common Windows Python Scripts directories
+        import site
+        candidates = []
+        for scripts_dir in [
+            os.path.join(site.getusersitepackages().replace('site-packages', 'Scripts')),
+            os.path.join(os.path.dirname(sys.executable), 'Scripts'),
+            os.path.expanduser('~/AppData/Roaming/Python/Python314/Scripts'),
+            os.path.expanduser('~/AppData/Roaming/Python/Python313/Scripts'),
+            os.path.expanduser('~/AppData/Roaming/Python/Python312/Scripts'),
+            os.path.expanduser('~/AppData/Local/Programs/Python/Python314/Scripts'),
+            os.path.expanduser('~/AppData/Local/Programs/Python/Python313/Scripts'),
+        ]:
+            # Prefer pysemgrep — semgrep.exe is a wrapper that itself needs pysemgrep on PATH
+            for name in ['pysemgrep', 'pysemgrep.exe', 'semgrep', 'semgrep.exe']:
+                candidate = os.path.join(scripts_dir, name)
+                if os.path.isfile(candidate):
+                    semgrep_cmd = candidate
+                    break
+            if semgrep_cmd:
+                break
+    if not semgrep_cmd:
+        raise FileNotFoundError(
+            "Semgrep not found. Install with: pip install semgrep"
+        )
+
     # Build command - SAFE: Using list args, NOT shell=True
-    cmd = ['semgrep', '--json']
+    cmd = [semgrep_cmd, '--json']
 
     # Add rulesets
     for rule in rules:
@@ -115,7 +144,7 @@ def scan_code(
         raise TimeoutError("Scan exceeded timeout of " + str(timeout) + " seconds")
     except FileNotFoundError:
         raise FileNotFoundError(
-            "Semgrep not found. Install with: pip install semgrep"
+            "Semgrep executable failed to run: " + semgrep_cmd
         )
 
 
@@ -139,6 +168,7 @@ def parse_findings(scan_results: Dict[str, Any]) -> Dict[str, Any]:
             'summary': {'high': 0, 'medium': 0, 'low': 0},
             'findings': [],
             'status': 'error',
+            'total_findings': 0,
             'error': scan_results.get('error')
         }
 

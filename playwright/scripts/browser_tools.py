@@ -45,16 +45,19 @@ async def _ensure_browser(headless: bool = True, width: int = 1280, height: int 
     return _page
 
 
-async def _run_async(coro):
-    """Run async coroutine, creating event loop if needed."""
-    try:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            return await coro
-        else:
-            return loop.run_until_complete(coro)
-    except RuntimeError:
-        return asyncio.run(coro)
+_loop = None
+
+def _run(coro):
+    """Run async coroutine on a persistent event loop.
+
+    Unlike asyncio.run(), this preserves the event loop between calls
+    so browser state (page, context) survives across multiple function calls.
+    """
+    global _loop
+    if _loop is None or _loop.is_closed():
+        _loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(_loop)
+    return _loop.run_until_complete(coro)
 
 
 # Core Navigation Tools
@@ -78,7 +81,7 @@ def browser_navigate(url: str, timeout: int = 30000) -> Dict[str, Any]:
             'title': await page.title()
         }
 
-    return asyncio.run(_navigate())
+    return _run(_navigate())
 
 
 def browser_close() -> Dict[str, Any]:
@@ -102,7 +105,7 @@ def browser_close() -> Dict[str, Any]:
         _console_logs.clear()
         return {'status': 'closed'}
 
-    return asyncio.run(_close())
+    return _run(_close())
 
 
 def browser_navigate_back() -> Dict[str, Any]:
@@ -117,7 +120,7 @@ def browser_navigate_back() -> Dict[str, Any]:
         await page.go_back()
         return {'url': page.url}
 
-    return asyncio.run(_back())
+    return _run(_back())
 
 
 # Inspection Tools
@@ -161,7 +164,7 @@ def browser_screenshot(filename: str = '', fullPage: bool = False,
             import base64
             return {'base64': base64.b64encode(data).decode()}
 
-    return asyncio.run(_screenshot())
+    return _run(_screenshot())
 
 
 def browser_console_messages(onlyErrors: bool = False) -> Dict[str, Any]:
@@ -208,7 +211,7 @@ def browser_evaluate(function: str, element: str = '', ref: str = '') -> Dict[st
 
         return {'result': result}
 
-    return asyncio.run(_evaluate())
+    return _run(_evaluate())
 
 
 def browser_snapshot() -> Dict[str, Any]:
@@ -223,7 +226,7 @@ def browser_snapshot() -> Dict[str, Any]:
         snapshot = await page.accessibility.snapshot()
         return {'snapshot': snapshot}
 
-    return asyncio.run(_snapshot())
+    return _run(_snapshot())
 
 
 # Interaction Tools
@@ -251,7 +254,7 @@ def browser_click(element: str, ref: str, doubleClick: bool = False,
 
         return {'status': 'clicked', 'selector': ref}
 
-    return asyncio.run(_click())
+    return _run(_click())
 
 
 def browser_type(element: str, ref: str, text: str,
@@ -282,7 +285,7 @@ def browser_type(element: str, ref: str, text: str,
 
         return {'status': 'typed', 'selector': ref}
 
-    return asyncio.run(_type())
+    return _run(_type())
 
 
 def browser_hover(element: str, ref: str) -> Dict[str, Any]:
@@ -301,7 +304,7 @@ def browser_hover(element: str, ref: str) -> Dict[str, Any]:
         await page.hover(ref)
         return {'status': 'hovered', 'selector': ref}
 
-    return asyncio.run(_hover())
+    return _run(_hover())
 
 
 def browser_select_option(element: str, ref: str, values: List) -> Dict[str, Any]:
@@ -321,7 +324,7 @@ def browser_select_option(element: str, ref: str, values: List) -> Dict[str, Any
         selected = await page.select_option(ref, values)
         return {'selected': selected}
 
-    return asyncio.run(_select())
+    return _run(_select())
 
 
 def browser_press_key(key: str) -> Dict[str, Any]:
@@ -339,7 +342,7 @@ def browser_press_key(key: str) -> Dict[str, Any]:
         await page.keyboard.press(key)
         return {'status': 'pressed', 'key': key}
 
-    return asyncio.run(_press())
+    return _run(_press())
 
 
 def browser_wait_for(time: float = 0, text: str = '', textGone: str = '') -> Dict[str, Any]:
@@ -368,7 +371,59 @@ def browser_wait_for(time: float = 0, text: str = '', textGone: str = '') -> Dic
 
         return {'status': 'waited'}
 
-    return asyncio.run(_wait())
+    return _run(_wait())
+
+
+def browser_session(url: str, wait_seconds: float = 2, screenshot_path: str = '',
+                    evaluate_js: str = '', keep_open: bool = False) -> Dict[str, Any]:
+    """
+    Navigate, wait, screenshot, and evaluate in one call.
+
+    Combines navigate + wait + screenshot + evaluate into a single invocation,
+    avoiding the multi-process state issue.
+
+    Args:
+        url: URL to navigate to
+        wait_seconds: Time to wait for page to settle
+        screenshot_path: If provided, save screenshot to this path
+        evaluate_js: If provided, evaluate this JavaScript
+        keep_open: If true, don't close browser
+
+    Returns:
+        Combined results: url, title, console_logs, screenshot_path, js_result
+    """
+    async def _session():
+        page = await _ensure_browser()
+        await page.goto(url, wait_until='load')
+        await asyncio.sleep(wait_seconds)
+
+        result = {
+            'url': page.url,
+            'title': await page.title(),
+            'console_logs': list(_console_logs)
+        }
+
+        if screenshot_path:
+            await page.screenshot(path=screenshot_path)
+            result['screenshot_path'] = screenshot_path
+
+        if evaluate_js:
+            result['js_result'] = await page.evaluate(evaluate_js)
+
+        if not keep_open:
+            global _playwright, _browser, _context, _page
+            if _browser:
+                await _browser.close()
+            if _playwright:
+                await _playwright.stop()
+            _browser = None
+            _context = None
+            _page = None
+            _console_logs.clear()
+
+        return result
+
+    return _run(_session())
 
 
 def browser_resize(width: int, height: int) -> Dict[str, Any]:
@@ -387,7 +442,7 @@ def browser_resize(width: int, height: int) -> Dict[str, Any]:
         await page.set_viewport_size({'width': width, 'height': height})
         return {'width': width, 'height': height}
 
-    return asyncio.run(_resize())
+    return _run(_resize())
 
 
 # ============================================================================
