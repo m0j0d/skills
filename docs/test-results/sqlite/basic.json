@@ -1,0 +1,144 @@
+{
+  "skill_name": "sqlite",
+  "skill_path": "C:\\data\\projects\\skills\\sqlite",
+  "description": "Query and manage SQLite databases directly. Execute SQL queries, inspect schemas, create tables, and analyze data in local .db files.",
+  "scores": {
+    "structure": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "skill_md_exists": 3,
+        "valid_frontmatter": 2,
+        "frontmatter_details": "complete",
+        "scripts_dir": 3,
+        "has_implementation": 2,
+        "organization_details": {
+          "present": [],
+          "missing": ["references/", "assets/", "tests/"]
+        }
+      }
+    },
+    "functionality": {
+      "score": 8,
+      "max": 10,
+      "breakdown": {
+        "no_syntax_errors": 3,
+        "importable": 3,
+        "has_functions": 0,
+        "function_count": 0,
+        "has_docstrings": 2
+      }
+    },
+    "quality": {
+      "score": 10,
+      "max": 10,
+      "breakdown": {
+        "documentation": 3,
+        "documentation_details": {
+          "length": 2800,
+          "has_tools": true,
+          "has_examples": true,
+          "has_setup": true,
+          "missing_sections": []
+        },
+        "examples": 2,
+        "type_hints": 2,
+        "type_hints_details": {
+          "with_hints": [],
+          "without_hints": []
+        },
+        "error_handling": 2,
+        "error_handling_details": {
+          "with_handling": [],
+          "without_handling": []
+        }
+      }
+    },
+    "mcp_compare": {
+      "score": 10.0,
+      "max": 10,
+      "breakdown": {
+        "matched": 5,
+        "documented_only": 0,
+        "implemented_only": 0
+      }
+    }
+  },
+  "total": 38.0,
+  "max_total": 40,
+  "grade": "A",
+  "issues": [],
+  "recommendations": [
+    "MCP-based skill - no local scripts to analyze",
+    "Tools are provided by @modelcontextprotocol/server-sqlite MCP server"
+  ],
+  "function_analysis": {
+    "documented_functions": [
+      "read_query",
+      "write_query",
+      "create_table",
+      "list_tables",
+      "describe_table"
+    ],
+    "comparison": {
+      "documented_count": 5,
+      "implemented_count": 5,
+      "total_functions": 5,
+      "matched": ["read_query", "write_query", "create_table", "list_tables", "describe_table"],
+      "documented_only": [],
+      "implemented_only": [],
+      "all_implemented": [
+        {
+          "name": "read_query",
+          "file": "MCP server",
+          "line": 0,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(db_path: str, query: str) -> QueryResult"
+        },
+        {
+          "name": "write_query",
+          "file": "MCP server",
+          "line": 0,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(db_path: str, query: str) -> WriteResult"
+        },
+        {
+          "name": "create_table",
+          "file": "MCP server",
+          "line": 0,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(db_path: str, query: str) -> CreateResult"
+        },
+        {
+          "name": "list_tables",
+          "file": "MCP server",
+          "line": 0,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(db_path: str) -> TableList"
+        },
+        {
+          "name": "describe_table",
+          "file": "MCP server",
+          "line": 0,
+          "is_method": false,
+          "class_name": "",
+          "has_docstring": true,
+          "is_private": false,
+          "signature": "(db_path: str, table_name: str) -> TableSchema"
+        }
+      ]
+    }
+  }
+}

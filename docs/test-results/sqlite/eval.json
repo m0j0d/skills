@@ -1,0 +1,60 @@
+{
+  "skill_name": "sqlite",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Create a new SQLite database called tasks.db with a tasks table (id, title, status, priority, due_date), insert 3 sample tasks, then query for all high-priority tasks.",
+    "assertions": [
+      "Uses create_table tool to create the tasks table with correct schema",
+      "Uses write_query to insert 3 tasks with varying priorities",
+      "Uses read_query to SELECT tasks WHERE priority = 'high'",
+      "Baseline must construct raw SQL and figure out how to execute it (sqlite3 CLI or Python)"
+    ],
+    "with_skill": {
+      "plan": "1. Call create_table(db_path='tasks.db', query='CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, status TEXT, priority TEXT, due_date TEXT)'). 2. Call write_query 3 times to INSERT tasks. 3. Call read_query(db_path='tasks.db', query='SELECT * FROM tasks WHERE priority = \"high\"').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Use sqlite3 CLI or Python's sqlite3 module. 2. Write SQL statements manually. 3. Execute via subprocess or script. Works but requires knowing sqlite3 CLI flags or writing Python boilerplate.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "I have a database at analytics.db. Show me all tables, describe the schema of each, then run a query to find the top 5 pages by visit count.",
+    "assertions": [
+      "Uses list_tables to discover all tables in the database",
+      "Uses describe_table for each table to show column definitions",
+      "Uses read_query with ORDER BY and LIMIT to find top 5 pages",
+      "Baseline must use sqlite3 CLI .tables and .schema commands or Python introspection"
+    ],
+    "with_skill": {
+      "plan": "1. Call list_tables(db_path='analytics.db') to see all tables. 2. For each table returned, call describe_table(db_path='analytics.db', table_name=name). 3. Call read_query(db_path='analytics.db', query='SELECT page, COUNT(*) as visits FROM page_views GROUP BY page ORDER BY visits DESC LIMIT 5').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Run sqlite3 analytics.db '.tables' to list tables. 2. Run sqlite3 analytics.db '.schema tablename' for each. 3. Run the SQL query via sqlite3 CLI. Requires knowing sqlite3 dot-commands and proper shell quoting.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "Add a new column 'completed_at' to the tasks table in tasks.db, then update all tasks with status 'done' to set completed_at to today's date.",
+    "assertions": [
+      "Uses write_query with ALTER TABLE to add the column",
+      "Uses write_query with UPDATE to set completed_at for done tasks",
+      "Uses read_query to verify the changes took effect",
+      "Baseline needs raw SQL execution via CLI or script"
+    ],
+    "with_skill": {
+      "plan": "1. Call write_query(db_path='tasks.db', query='ALTER TABLE tasks ADD COLUMN completed_at TEXT'). 2. Call write_query(db_path='tasks.db', query='UPDATE tasks SET completed_at = date(\"now\") WHERE status = \"done\"'). 3. Call read_query to verify: SELECT * FROM tasks WHERE status = 'done'.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Use sqlite3 tasks.db 'ALTER TABLE tasks ADD COLUMN completed_at TEXT'. 2. Run UPDATE query via sqlite3 CLI. 3. Verify with SELECT. Works but requires manual CLI interaction and proper quoting.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.25,
+    "delta": 0.75,
+    "eval_score": 60,
+    "verdict": "PASS"
+  }
+}

@@ -10,5 +10,6 @@
   { "name": "semgrep", "description": "Static analysis security scanning with Semgrep." },
   { "name": "sequential-thinking", "description": "Structured thought sequences for dynamic problem-solving with revision and branching." },
   { "name": "slack", "description": "Slack workspace integration for messaging, channels, and canvas management." },
+  { "name": "sqlite", "description": "Query and manage SQLite databases directly — execute SQL, inspect schemas, create tables." },
   { "name": "twitter", "description": "X/Twitter integration for posting, searching, and managing engagement." }
 ]

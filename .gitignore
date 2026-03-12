@@ -38,3 +38,8 @@ node_modules/
 
 # Publishing
 public-docs/
+
+# Eval workspaces (temporary)
+*-workspace/
+*-eval/
+docs/screenshots/

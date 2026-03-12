@@ -6,7 +6,7 @@ Lightweight Python skills for Claude Code with direct API calls.
 
 **[View dashboard with scores and behavioral evals](https://m0j0d.github.io/skills/)**
 
-12 skills: GitHub, Slack, Jira, Linear, Notion, Playwright, Semgrep, Memory, Sequential-thinking, Fetch, Twitter, GitHub Actions.
+13 skills: Fetch, GitHub, GitHub Actions, Jira, Linear, Memory, Notion, Playwright, Semgrep, Sequential Thinking, Slack, SQLite, Twitter.
 
 Each skill is scored on a 3-layer system:
 - **Safety Gate** (pass/block) - security scan
@@ -17,7 +17,7 @@ Each skill is scored on a 3-layer system:
 
 ## Quick Start
 
-**New to skills?** Try **[sequential-thinking](sequential-thinking/)** first - no API keys needed.
+**New to skills?** Try **[sequential-thinking](sequential-thinking/)** or **[sqlite](sqlite/)** first — no API keys needed.
 
 ```bash
 # Clone to skills directory
