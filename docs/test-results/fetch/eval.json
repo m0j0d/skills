@@ -17,6 +17,38 @@
       "plan": "1. Use curl or Invoke-WebRequest to download the raw HTML page. 2. Attempt to parse the HTML manually or pipe through a text converter if available. 3. Struggle with raw HTML tags, navigation chrome, and page length. 4. Try to extract feature descriptions from noisy output. May partially succeed but with significant effort and messy results.",
       "assertions_passed": [false, false, false, true]
     }
+  }, {
+    "prompt": "Fetch the raw HTML source of https://example.com and count how many anchor tags it contains.",
+    "assertions": [
+      "Should call fetch with the raw=true parameter to get unprocessed HTML",
+      "Should correctly use the raw mode rather than default markdown conversion",
+      "Should parse the returned HTML to count <a> tags and report the number",
+      "Baseline can use curl to get raw HTML but lacks the integrated fetch tool's raw parameter"
+    ],
+    "with_skill": {
+      "plan": "1. Call fetch(url='https://example.com', raw=True) to get the raw HTML source. 2. Parse the HTML output and count occurrences of <a> or anchor tags. 3. Report the count to the user.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Run curl https://example.com to download raw HTML. 2. Pipe through grep -c '<a ' to count anchor tags. This actually works reasonably well for this simple case since curl returns raw HTML by default.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "Compare the homepages of https://httpbin.org and https://jsonplaceholder.typicode.com by fetching both and telling me which has more content and what each site offers.",
+    "assertions": [
+      "Should call fetch twice, once for each URL",
+      "Should use max_length to control response size for each fetch",
+      "Should compare the two pages based on content length and topic coverage",
+      "Baseline can curl both URLs but gets raw HTML that is harder to compare meaningfully"
+    ],
+    "with_skill": {
+      "plan": "1. Call fetch(url='https://httpbin.org', max_length=5000) and fetch(url='https://jsonplaceholder.typicode.com', max_length=5000) in parallel. 2. Compare the markdown content length and structure of each. 3. Summarize what each site offers and which has more content.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Run curl for both URLs to get raw HTML. 2. Attempt to read through HTML tags and navigation elements to understand page content. 3. Compare raw byte sizes. The HTML noise makes meaningful content comparison difficult without manual cleanup.",
+      "assertions_passed": [false, false, false, true]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

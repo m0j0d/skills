@@ -88,18 +88,15 @@ We aim to maintain security through:
 
 ### Current limitations users should be aware of:
 
-**Filesystem Skill:**
-- Access control is configuration-based (user must configure)
-- No built-in sandboxing (relies on OS permissions)
-
-**API Skills (twitter, github-actions, etc.):**
+**API Skills (github, jira, slack, twitter, etc.):**
 - API keys have full access to your accounts
 - No rate limiting (relies on API provider limits)
 - Errors may include API responses (don't log in production)
 
-**Git Skill:**
-- Can access any git repository on the system
-- No restrictions on git operations
+**Playwright Skill:**
+- Can navigate to any URL including internal network addresses
+- JavaScript evaluation executes in browser context
+- Intended for local development and debugging only
 
 These are not vulnerabilities but design characteristics. Users should configure and use skills appropriately for their security requirements.
 
@@ -129,6 +126,6 @@ When issues are fixed, we will document them here with:
 
 ---
 
-**Last updated:** 2025-09-20
+**Last updated:** 2026-03-11
 
 Thank you for helping keep this project secure!

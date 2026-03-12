@@ -17,6 +17,38 @@
       "plan": "No Slack API tools available. Would suggest the user open Slack, manually search #engineering for 'deploy', copy relevant messages, paste a summary into #ops, and click the emoji reaction button on each message. Could attempt to use curl with the Slack API if the user provides a bot token, but would not know the correct channel IDs, message timestamps, or API parameter formats without the skill's tooling. Cannot execute the workflow programmatically.",
       "assertions_passed": [false, false, false, false]
     }
+  }, {
+    "prompt": "List all users in the workspace, find the user profile for someone named 'Alice Chen', and post a direct message to #general tagging her with her Slack user ID",
+    "assertions": [
+      "Uses list_users tool to retrieve workspace members",
+      "Uses get_user_profile tool to get details for the matched user",
+      "Uses post_message tool to send a message to #general that includes the user's Slack ID in a mention format",
+      "Does not use curl or raw Slack API calls for any of the operations"
+    ],
+    "with_skill": {
+      "plan": "1. Call list_users to get all workspace members. 2. Search results for a user matching 'Alice Chen' by display name or real name. 3. Call get_user_profile with her user ID to confirm details. 4. Call list_channels to resolve #general channel ID. 5. Call post_message to #general with message body containing '<@USER_ID>' mention format using Alice's Slack ID.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without Slack tools, would need to use curl with Slack Web API endpoints: GET users.list to enumerate users, GET users.profile.get for profile details, POST chat.postMessage to send. Requires the user to supply a bot token and channel IDs. Even with curl, constructing the correct JSON payloads and parsing paginated user lists is error-prone. Does not use the skill's dedicated tools.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }, {
+    "prompt": "List all channels in the workspace and find any channels with 'project' in the name, then get the last 10 messages from the first matching channel",
+    "assertions": [
+      "Uses list_channels tool to retrieve all workspace channels",
+      "Filters channels by name containing 'project'",
+      "Uses get_channel_history tool with a limit of 10 on the matched channel",
+      "Does not use curl or raw Slack API calls"
+    ],
+    "with_skill": {
+      "plan": "1. Call list_channels to retrieve all channels in the workspace. 2. Filter the results for channels whose name contains 'project'. 3. Take the first matching channel's ID. 4. Call get_channel_history with that channel ID and limit=10 to retrieve the last 10 messages. 5. Present the messages with sender info and timestamps.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without skill tools, would use curl to call conversations.list Slack API endpoint then conversations.history, requiring bot token, pagination handling, and correct parameter formatting. All operations use raw API calls rather than the skill's list_channels and get_channel_history tools.",
+      "assertions_passed": [false, false, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

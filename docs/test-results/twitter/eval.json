@@ -17,6 +17,38 @@
       "plan": "No Twitter API tools available. Would tell user to open twitter.com/search, search manually, scan for high-retweet posts, and click heart icon on each. Cannot execute any part programmatically.",
       "assertions_passed": [false, false, false, true]
     }
+  }, {
+    "prompt": "Post a tweet saying 'Just shipped a new feature! Check it out.' and then reply to it with 'Thread: here are the technical details...'",
+    "assertions": [
+      "Should call post_tweet with the initial tweet text",
+      "Should capture the returned tweet ID from the post response",
+      "Should call reply_to_tweet with the new tweet ID and the thread reply text",
+      "Baseline cannot post tweets or create threaded replies programmatically"
+    ],
+    "with_skill": {
+      "plan": "1. Call post_tweet(text='Just shipped a new feature! Check it out.'). 2. Extract the tweet ID from the response. 3. Call reply_to_tweet(tweet_id=<new_id>, text='Thread: here are the technical details...').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would instruct user to open Twitter, compose a tweet, post it, then click reply on their own tweet to add a threaded response. No programmatic access to the Twitter API. Cannot automate any of this.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "Look up the Twitter profile for @AnthropicAI, follow them, and then check my home timeline for their recent posts.",
+    "assertions": [
+      "Should call get_user_info with username 'AnthropicAI' to retrieve profile details",
+      "Should call follow_user with username 'AnthropicAI'",
+      "Should call get_timeline to retrieve the home timeline and look for Anthropic posts",
+      "Baseline cannot follow users or read timeline programmatically"
+    ],
+    "with_skill": {
+      "plan": "1. Call get_user_info(username='AnthropicAI') to get profile details (bio, follower count, etc.). 2. Call follow_user(username='AnthropicAI'). 3. Call get_timeline(max_results=20) and scan results for tweets from AnthropicAI.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would tell user to visit twitter.com/AnthropicAI, click the Follow button, then scroll their home timeline. Could potentially use curl to hit the Twitter API but would need OAuth setup, bearer tokens, and exact endpoint knowledge. Very unlikely to succeed without the skill's pre-configured auth.",
+      "assertions_passed": [false, false, false, true]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

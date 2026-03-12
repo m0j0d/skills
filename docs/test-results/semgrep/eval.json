@@ -17,12 +17,44 @@
       "plan": "1. No scan_code or parse_findings tools available. 2. Attempt to run 'semgrep' via bash if installed, constructing CLI flags manually (semgrep --config p/security-audit --config p/secrets <path>). 3. Parse raw JSON/text output manually with no structured severity categorization tool. 4. Likely falls back to grep-based pattern matching for common issues (hardcoded passwords, eval usage) if semgrep is not installed, which is ad-hoc and incomplete.",
       "assertions_passed": [false, false, false, false]
     }
+  }, {
+    "prompt": "List all available Semgrep rulesets I can use, then scan C:/data/projects/skills/github-actions/scripts using the OWASP Top 10 ruleset specifically. Tell me the total number of findings.",
+    "assertions": [
+      "Uses get_available_rulesets tool to list available Semgrep rulesets",
+      "Uses scan_code tool with p/owasp-top-ten ruleset on the specified path",
+      "Uses parse_findings to extract total finding count from results",
+      "Reports the total_findings number from the parsed output"
+    ],
+    "with_skill": {
+      "plan": "1. Call get_available_rulesets() to list all available rulesets with descriptions. 2. Call scan_code(target_path='C:/data/projects/skills/github-actions/scripts', rules=['p/owasp-top-ten']). 3. Call parse_findings() on the results. 4. Report the total_findings count and list of available rulesets.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. No get_available_rulesets tool. Would have to search Semgrep docs or run 'semgrep --help' to discover rulesets. 2. Could run semgrep CLI directly if installed: 'semgrep --config p/owasp-top-ten <path>'. 3. Would parse raw CLI output manually. 4. Could count findings from raw output but without structured parse_findings tool.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "Run a security scan on C:/data/projects/skills/semgrep/scripts using the Python-specific ruleset. If the scan takes too long, make sure it times out after 60 seconds. Show me each individual finding with its file, line number, and severity.",
+    "assertions": [
+      "Uses scan_code tool with p/python ruleset",
+      "Passes a custom timeout value of 60 to scan_code",
+      "Uses parse_findings to get the structured findings list with file/line/severity details",
+      "Reports individual finding details (not just summary counts)"
+    ],
+    "with_skill": {
+      "plan": "1. Call scan_code(target_path='C:/data/projects/skills/semgrep/scripts', rules=['p/python'], timeout=60). 2. Call parse_findings() to get structured output. 3. Iterate through the 'findings' list in the parsed result and report each finding's file path, line number, and severity level.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Could run 'semgrep --config p/python --timeout 60 <path>' via bash if installed. 2. The timeout flag maps directly to CLI usage. 3. Would parse raw text/JSON output manually to extract file, line, severity. 4. Can display individual findings from raw output but without structured parsing.",
+      "assertions_passed": [false, true, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,
-    "baseline_pass_rate": 0.0,
-    "delta": 1.0,
-    "eval_score": 80,
+    "baseline_pass_rate": 0.17,
+    "delta": 0.83,
+    "eval_score": 66,
     "verdict": "PASS"
   }
 }

@@ -117,7 +117,8 @@ function renderStaticCard(staticScore) {
         <div class="category-items">
             ${renderGroup('Scripts parse & import', b.scripts)}
             ${renderGroup('Structure exists', b.structure)}
-            ${renderGroup('Examples present', b.examples)}
+            ${renderGroup('Documentation & examples', b.docs)}
+            ${renderGroup('Code quality', b.quality)}
         </div>`;
 }
 

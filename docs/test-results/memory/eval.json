@@ -18,12 +18,44 @@
       "plan": "Acknowledge the information conversationally: 'Got it, you switched to Neovim and are working on DataPipeline in Rust.' No persistence tools available. Information exists only in current conversation context and will be lost in future conversations.",
       "assertions_passed": [false, false, false, false, true]
     }
+  }, {
+    "prompt": "What do you know about me and my projects? Show me everything you have stored.",
+    "assertions": [
+      "Should call read_graph to export the complete knowledge graph",
+      "Should present entities, their observations, and relations in a readable format",
+      "Should distinguish between entity types (person, project, tool, etc.)",
+      "Baseline has no persistent storage to query and can only reference current conversation"
+    ],
+    "with_skill": {
+      "plan": "1. Call read_graph() to retrieve the full knowledge graph. 2. Parse the returned entities and relations. 3. Group entities by type (person, project, tool, etc.). 4. Present each entity with its observations and connections in a structured format.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Can only say 'I don't have any stored information about you beyond this conversation.' No persistent memory exists. Would ask the user to re-share any relevant context. Cannot retrieve anything from prior conversations.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "I no longer work at Acme Corp, I moved to Globex. Update my records and remove the old company relationship.",
+    "assertions": [
+      "Should call search_nodes or open_nodes to find the existing Acme Corp relation",
+      "Should call delete_relations to remove the user-to-Acme_Corp 'works_at' relation",
+      "Should call create_entities for Globex (if not existing) and create_relations for the new employment",
+      "Baseline cannot modify any persistent records since none exist"
+    ],
+    "with_skill": {
+      "plan": "1. Call search_nodes(query='Acme') to find the existing Acme_Corp entity and confirm the relation. 2. Call delete_relations(relations=[{from:'User', to:'Acme_Corp', relationType:'works_at'}]). 3. Call delete_observations(entityName='User', observations=['Works at Acme Corp']) if such an observation exists. 4. Call create_entities(entities=[{name:'Globex', entityType:'organization', observations:['New employer as of 2026']}]). 5. Call create_relations(relations=[{from:'User', to:'Globex', relationType:'works_at'}]). 6. Optionally call add_observations(entityName='User', observations=['Left Acme Corp, joined Globex in 2026']).",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Acknowledge the change conversationally. Cannot delete or update any records because no persistent storage exists. Would say 'Noted, you now work at Globex instead of Acme Corp' but this information lives only in the current session.",
+      "assertions_passed": [false, false, false, true]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,
-    "baseline_pass_rate": 0.2,
-    "delta": 0.8,
-    "eval_score": 64,
+    "baseline_pass_rate": 0.21,
+    "delta": 0.79,
+    "eval_score": 63,
     "verdict": "PASS"
   }
 }

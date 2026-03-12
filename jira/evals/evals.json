@@ -1,0 +1,29 @@
+{
+  "skill_name": "jira",
+  "evals": [
+    {
+      "id": 1,
+      "name": "transition-and-comment",
+      "prompt": "Move PLATFORM-347 to In Progress and add a comment saying I've started working on the database migration",
+      "expected_output": "Issue transitioned and comment added",
+      "expectations": [
+        "Calls get_transitions to discover available transition IDs for PLATFORM-347 before attempting to transition",
+        "Calls transition_issue with the correct transition ID to move to In Progress",
+        "Calls add_comment with issue key PLATFORM-347 and a message about starting the database migration",
+        "Does NOT hardcode transition IDs — discovers them dynamically"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "create-and-search",
+      "prompt": "Create a high-priority bug in the BACKEND project about the login API returning 500 errors for passwords with special characters. Then search for all open bugs in BACKEND to confirm it was created.",
+      "expected_output": "Bug created and search confirms it exists",
+      "expectations": [
+        "Calls create_issue with project BACKEND, issue_type Bug, and priority High",
+        "The issue summary mentions login API 500 errors and special characters",
+        "Calls search_issues with JQL filtering for project=BACKEND, type=Bug, status not Done",
+        "Confirms the newly created issue appears in the search results"
+      ]
+    }
+  ]
+}

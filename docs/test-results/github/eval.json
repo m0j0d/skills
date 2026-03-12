@@ -17,6 +17,38 @@
       "plan": "No GitHub MCP tools available. Would use 'gh issue list --repo acme/widgets --state open --label bug' via bash, then 'gh issue view <number>' for details, then 'gh issue comment <number> --body ...' to add comment. All three operations use the gh CLI, not dedicated skill tools.",
       "assertions_passed": [false, false, false, false]
     }
+  }, {
+    "prompt": "Create a pull request in acme/widgets from branch 'feature/auth' to 'main' titled 'Add OAuth2 support' with a description, then squash-merge it once created",
+    "assertions": [
+      "Uses create_pull_request tool with owner='acme', repo='widgets', head='feature/auth', base='main'",
+      "Uses merge_pull_request tool with merge_method='squash' on the newly created PR number",
+      "Does not use gh CLI or curl to create or merge the PR",
+      "Passes the title and body parameters to create_pull_request"
+    ],
+    "with_skill": {
+      "plan": "1. Call create_pull_request(owner='acme', repo='widgets', title='Add OAuth2 support', body='<description>', head='feature/auth', base='main') to open the PR. 2. Extract the PR number from the response. 3. Call merge_pull_request(owner='acme', repo='widgets', pr_number=<number>, merge_method='squash') to squash-merge it.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would use 'gh pr create --repo acme/widgets --head feature/auth --base main --title ...' then 'gh pr merge <number> --squash' via bash. Achieves the outcome but uses gh CLI commands, not the skill's dedicated tools.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }, {
+    "prompt": "Search for all repositories owned by 'acme' that use Python, then get detailed info about the most-starred one including its description, stars, and topics",
+    "assertions": [
+      "Uses search_repos tool with a query including 'user:acme language:python'",
+      "Uses get_repo tool with owner and repo from the top search result",
+      "Presents repository description, star count, and topics from the get_repo response",
+      "Does not fall back to gh CLI or GitHub API calls via curl"
+    ],
+    "with_skill": {
+      "plan": "1. Call search_repos(query='user:acme language:python', sort='stars', order='desc') to find Python repos. 2. Identify the top result by star count. 3. Call get_repo(owner='acme', repo=<repo_name>) to retrieve full details. 4. Present description, stars, and topics from the response.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would use 'gh search repos --owner acme --language python --sort stars' then 'gh repo view acme/<repo>' via bash. Both operations use the gh CLI rather than the skill's search_repos and get_repo tools.",
+      "assertions_passed": [false, false, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

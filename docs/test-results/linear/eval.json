@@ -17,6 +17,38 @@
       "plan": "Suggest navigating to linear.app UI, clicking New Issue, selecting backend team, filling in details manually. Or suggest looking up Linear's GraphQL API and crafting a raw createIssue mutation with curl — without knowing exact mutation shape, priority mappings, or how to resolve 'me' to a userId.",
       "assertions_passed": [false, false, false, true]
     }
+  }, {
+    "prompt": "Find all in-progress issues assigned to me and add a comment to each one saying 'Status check: still on track for this sprint?'",
+    "assertions": [
+      "Should call linear_get_user_issues to retrieve issues assigned to the current user",
+      "Should filter results by in-progress status using linear_get_team to resolve state IDs",
+      "Should call linear_add_comment for each matching issue with the specified comment text",
+      "Baseline cannot resolve workflow state IDs or batch-comment via the GraphQL API without extensive manual setup"
+    ],
+    "with_skill": {
+      "plan": "1. Call linear_get_user_issues() to get all assigned issues. 2. Call linear_list_teams() then linear_get_team(teamId=<id>) to find the 'In Progress' state ID. 3. Filter issues where state matches in-progress. 4. For each matching issue, call linear_add_comment(issueId=<id>, body='Status check: still on track for this sprint?').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would need to manually construct GraphQL queries to Linear's API: first a viewer query for user ID, then an issues query with state filter, then individual createComment mutations. Would need to know the exact GraphQL schema, state type enums, and authentication headers. Highly unlikely to execute correctly without documentation.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }, {
+    "prompt": "Create a new project called 'Q3 Security Audit' for the platform team with a target date of September 30, then search for all issues labeled 'security' and list them.",
+    "assertions": [
+      "Should call linear_list_teams to find the platform team ID",
+      "Should call linear_create_project with name, teamId, and targetDate parameters",
+      "Should call linear_search_issues with a labels filter to find security-labeled issues",
+      "Baseline cannot create projects or search by label without knowing Linear's GraphQL mutations"
+    ],
+    "with_skill": {
+      "plan": "1. Call linear_list_teams() to find the platform team ID. 2. Call linear_get_team(teamId=<platform_id>) to get available labels and find the 'security' label ID. 3. Call linear_create_project(name='Q3 Security Audit', teamId=<platform_id>, targetDate='2026-09-30'). 4. Call linear_search_issues(labels=[<security_label_id>]) to list all security-tagged issues.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would suggest opening Linear UI to create a project manually and browsing filtered views. For API approach, would need to craft projectCreate and issues GraphQL mutations/queries from scratch, guess label ID format, and handle pagination. Very unlikely to succeed without trial and error.",
+      "assertions_passed": [false, false, false, true]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

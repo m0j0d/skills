@@ -16,6 +16,37 @@
       "plan": "Without the notion skill, there is no notion_search tool available. I cannot execute a live search against Notion. I would ask the user to search manually in Notion, or offer to write a Python script using the Notion REST API (POST /v1/search with a sort body) that they could run themselves. I cannot retrieve or display actual results.",
       "assertions_passed": [false, false, false]
     }
+  }, {
+    "prompt": "Create a new page called 'Sprint 12 Retrospective' under the page with ID abc123, with a paragraph block summarizing the sprint outcomes and an emoji icon",
+    "assertions": [
+      "Uses notion_create_pages with parent={'page_id': 'abc123'}",
+      "Passes properties with title set to 'Sprint 12 Retrospective'",
+      "Includes children array with at least one paragraph block containing content",
+      "Sets icon parameter with an emoji type"
+    ],
+    "with_skill": {
+      "plan": "Call notion_create_pages(parent={'page_id': 'abc123'}, properties={'title': [{'text': {'content': 'Sprint 12 Retrospective'}}]}, children=[{'object': 'block', 'type': 'paragraph', 'paragraph': {'rich_text': [{'type': 'text', 'text': {'content': '<sprint summary>'}}]}}], icon={'type': 'emoji', 'emoji': '<relevant emoji>'}) to create the page with content and icon in a single call.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "No notion_create_pages tool available. Would need to construct a POST request to https://api.notion.com/v1/pages with Notion-Version header, Bearer token auth, and a JSON body matching Notion's block schema. Requires deep knowledge of Notion's rich text and block format. Could attempt via curl but would likely produce malformed ADF content without the skill's structured parameters.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }, {
+    "prompt": "Fetch the page at https://www.notion.so/MyPage-def456, update its title to 'Updated Roadmap', then add a comment saying 'Reviewed and approved for Q2'",
+    "assertions": [
+      "Uses notion_fetch with the Notion URL to retrieve the page",
+      "Uses notion_update_page with page_id and updated title properties",
+      "Uses notion_create_comment with page_id and rich_text containing the review message"
+    ],
+    "with_skill": {
+      "plan": "1. Call notion_fetch(page_id='https://www.notion.so/MyPage-def456') to retrieve the page and extract its ID. 2. Call notion_update_page(page_id=<extracted_id>, properties={'title': [{'text': {'content': 'Updated Roadmap'}}]}) to rename it. 3. Call notion_create_comment(page_id=<extracted_id>, rich_text=[{'type': 'text', 'text': {'content': 'Reviewed and approved for Q2'}}]) to add the comment.",
+      "assertions_passed": [true, true, true]
+    },
+    "baseline": {
+      "plan": "No Notion tools available. Would need to parse the page ID from the URL manually, construct PATCH /v1/pages/<id> with title properties in Notion's format, then POST /v1/comments with rich_text array — all via curl with Bearer auth and Notion-Version header. Requires knowledge of Notion API URL-to-ID extraction, property update schema, and comment format. Cannot execute reliably without the skill.",
+      "assertions_passed": [false, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

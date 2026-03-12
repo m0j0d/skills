@@ -1,0 +1,82 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check skill structure
+        run: |
+          errors=0
+          for skill_dir in fetch github github-actions jira linear memory notion playwright semgrep sequential-thinking slack twitter; do
+            if [ ! -f "$skill_dir/SKILL.md" ]; then
+              echo "FAIL: $skill_dir/SKILL.md missing"
+              errors=$((errors + 1))
+            fi
+            if [ ! -d "$skill_dir/scripts" ]; then
+              echo "FAIL: $skill_dir/scripts/ missing"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ $errors -gt 0 ]; then
+            echo "$errors structure errors found"
+            exit 1
+          fi
+          echo "All skill structures valid"
+
+      - name: Syntax check Python scripts
+        run: |
+          errors=0
+          for py_file in $(find . -path '*/scripts/*.py' -not -path './_*'); do
+            if ! python -m py_compile "$py_file" 2>/dev/null; then
+              echo "FAIL: $py_file has syntax errors"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ $errors -gt 0 ]; then
+            echo "$errors syntax errors found"
+            exit 1
+          fi
+          echo "All scripts pass syntax check"
+
+      - name: Validate JSON test data
+        run: |
+          errors=0
+          for json_file in $(find docs/test-results -name '*.json'); do
+            if ! python -m json.tool "$json_file" > /dev/null 2>&1; then
+              echo "FAIL: $json_file is invalid JSON"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ $errors -gt 0 ]; then
+            echo "$errors invalid JSON files"
+            exit 1
+          fi
+          echo "All JSON files valid"
+
+      - name: Check for secrets
+        run: |
+          errors=0
+          for py_file in $(find . -path '*/scripts/*.py' -not -path './_*'); do
+            if grep -qiE '(api_key|token|secret|password)\s*=\s*["\x27][^"\x27]{8,}' "$py_file"; then
+              echo "WARN: Possible hardcoded secret in $py_file"
+              errors=$((errors + 1))
+            fi
+          done
+          if [ $errors -gt 0 ]; then
+            echo "$errors potential secrets found"
+            exit 1
+          fi
+          echo "No hardcoded secrets detected"

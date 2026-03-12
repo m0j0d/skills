@@ -17,6 +17,38 @@
       "plan": "Without browser tools, would suggest the user open the file manually in Chrome DevTools. Could try to read the HTML/JS source files with the Read tool and look for syntax errors statically. Cannot actually open a browser, see console errors at runtime, take a screenshot, or evaluate DOM state. Would offer static code review only.",
       "assertions_passed": [false, false, false, false]
     }
+  }, {
+    "prompt": "I have a login form at http://localhost:3000/login. Fill in the username field with 'admin', the password field with 'test123', click the Submit button, then wait for the text 'Welcome' to appear on the page and take a screenshot of the logged-in state.",
+    "assertions": [
+      "Uses browser_navigate to open http://localhost:3000/login",
+      "Uses browser_type to fill in both username and password input fields",
+      "Uses browser_click to click the submit button",
+      "Uses browser_wait_for with text='Welcome' to wait for successful login"
+    ],
+    "with_skill": {
+      "plan": "1. Call browser_navigate with url 'http://localhost:3000/login'. 2. Call browser_type with ref='input[name=\"username\"]' and text='admin'. 3. Call browser_type with ref='input[name=\"password\"]' and text='test123'. 4. Call browser_click with ref='button[type=\"submit\"]'. 5. Call browser_wait_for with text='Welcome' to confirm login succeeded. 6. Call browser_screenshot to capture the logged-in page.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without browser automation tools, cannot interact with a live web page. Could use curl to send a POST request to the login endpoint, but cannot fill in form fields in a real browser, click buttons, or wait for DOM changes. Cannot take screenshots or observe the rendered page state.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }, {
+    "prompt": "Check how my responsive web app at http://localhost:5173 looks on mobile. Resize the browser to 375x812 (iPhone dimensions), take a full-page screenshot, then get the accessibility snapshot to verify the navigation menu is present.",
+    "assertions": [
+      "Uses browser_navigate to open the local dev server URL",
+      "Uses browser_resize to set the viewport to 375x812 mobile dimensions",
+      "Uses browser_screenshot with fullPage=true to capture the entire scrollable page",
+      "Uses browser_snapshot to get the accessibility tree and verify navigation structure"
+    ],
+    "with_skill": {
+      "plan": "1. Call browser_navigate with url 'http://localhost:5173'. 2. Call browser_resize with width=375 and height=812 to simulate iPhone viewport. 3. Call browser_screenshot with fullPage=true to capture the full scrollable mobile layout. 4. Call browser_snapshot to get the accessibility tree and check for navigation menu elements. Report whether the nav menu is accessible at mobile viewport size.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without browser tools, cannot resize a browser viewport, take screenshots, or get accessibility snapshots. Could read CSS source files and look for media queries, but cannot verify actual rendered layout at a specific viewport size. No way to capture visual state or inspect the accessibility tree at runtime.",
+      "assertions_passed": [false, false, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

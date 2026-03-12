@@ -17,6 +17,38 @@
       "plan": "Would need to manually construct raw HTTP requests with auth headers to Jira REST API v3. Requires user to provide site name, email, API token. Must construct base64 Basic auth, GET transitions endpoint, parse JSON, POST transition, POST comment — all via curl in Bash. Fragile and error-prone.",
       "assertions_passed": [false, false, false, false]
     }
+  }, {
+    "prompt": "Create a high-priority Bug in the PLATFORM project titled 'Login fails with SSO' with a description, then search for all open bugs in PLATFORM sorted by priority",
+    "assertions": [
+      "Uses create_issue tool with project_key='PLATFORM', issue_type='Bug', priority='High'",
+      "Uses search_issues tool with JQL filtering for type=Bug AND status=Open in PLATFORM",
+      "Does not use curl or raw HTTP requests against the Jira API",
+      "Passes summary and description parameters to create_issue"
+    ],
+    "with_skill": {
+      "plan": "1. Call create_issue(project_key_or_id='PLATFORM', summary='Login fails with SSO', issue_type='Bug', description='<details>', priority='High') to create the bug. 2. Call search_issues(jql='project=PLATFORM AND type=Bug AND status=Open ORDER BY priority DESC') to list open bugs sorted by priority.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would need to construct POST /rest/api/3/issue with ADF-formatted body via curl, requiring base64 auth header construction. Then construct GET /rest/api/3/search with JQL parameter. User must supply site name, email, and API token. Requires knowledge of Jira REST API field formats and ADF schema. Does not use skill tools.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }, {
+    "prompt": "Get the project details for PLATFORM including its issue types, then list all available workflow statuses for that project and check the dev info linked to PLATFORM-200",
+    "assertions": [
+      "Uses get_project tool with project_key_or_id='PLATFORM'",
+      "Uses list_statuses tool with project_key_or_id='PLATFORM'",
+      "Uses get_dev_info tool with issue_key_or_id='PLATFORM-200'",
+      "Does not fall back to curl or manual API construction for any of the three calls"
+    ],
+    "with_skill": {
+      "plan": "1. Call get_project(project_key_or_id='PLATFORM') to retrieve project details including description, lead, issue types, and components. 2. Call list_statuses(project_key_or_id='PLATFORM') to get all workflow statuses. 3. Call get_dev_info(issue_key_or_id='PLATFORM-200') to retrieve linked commits, PRs, and branches.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would need to construct three separate curl requests: GET /rest/api/3/project/PLATFORM, GET /rest/api/3/project/PLATFORM/statuses, and GET /rest/agile/1.0/issue/PLATFORM-200/development-info (or devinfo endpoint). Requires base64 auth, correct API paths, and knowledge of Jira's dev-info API which differs from the standard REST API. Fragile and undiscoverable without documentation.",
+      "assertions_passed": [false, false, false, false]
+    }
   }],
   "summary": {
     "with_skill_pass_rate": 1.0,

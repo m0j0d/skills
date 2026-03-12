@@ -35,11 +35,11 @@ function computeStaticScore(basicJson) {
     const functionality = basicJson.scores?.functionality?.breakdown || {};
     const quality = basicJson.scores?.quality?.breakdown || {};
 
-    // Scripts parse & import (10 pts)
+    // Scripts parse & import (7 pts)
     const syntaxOk = (functionality.no_syntax_errors || 0) >= 3;
     const importOk = (functionality.importable || 0) >= 3;
-    const syntaxPts = syntaxOk ? 5 : 0;
-    const importPts = importOk ? 5 : 0;
+    const syntaxPts = syntaxOk ? 4 : 0;
+    const importPts = importOk ? 3 : 0;
     const scriptsPts = syntaxPts + importPts;
 
     // Structure exists (5 pts)
@@ -49,24 +49,33 @@ function computeStaticScore(basicJson) {
     const scriptsDirPts = scriptsDirOk ? 2 : 0;
     const structurePts = skillMdPts + scriptsDirPts;
 
-    // Examples present (5 pts)
+    // Documentation & examples (3 pts)
     const examplesOk = (quality.examples || 0) >= 2;
     const docsOk = (quality.documentation || 0) >= 3;
-    const examplesPts = examplesOk ? 3 : 0;
-    const docsPts = docsOk ? 2 : 0;
-    const exPts = examplesPts + docsPts;
+    const examplesPts = examplesOk ? 2 : 0;
+    const docsPts = docsOk ? 1 : 0;
+    const docExPts = examplesPts + docsPts;
 
-    const total = scriptsPts + structurePts + exPts;
+    // Code quality (5 pts)
+    const typeHintsOk = (quality.type_hints || 0) >= 2;
+    const errorHandlingOk = (quality.error_handling || 0) >= 2;
+    const docstringsOk = (functionality.has_docstrings || 0) >= 2;
+    const typeHintsPts = typeHintsOk ? 2 : 0;
+    const errorHandlingPts = errorHandlingOk ? 2 : 0;
+    const docstringsPts = docstringsOk ? 1 : 0;
+    const qualityPts = typeHintsPts + errorHandlingPts + docstringsPts;
+
+    const total = scriptsPts + structurePts + docExPts + qualityPts;
 
     return {
         total,
         breakdown: {
             scripts: {
                 score: scriptsPts,
-                max: 10,
+                max: 7,
                 checks: [
-                    { name: 'No syntax errors', passed: syntaxOk, points: syntaxPts, max: 5 },
-                    { name: 'Modules importable', passed: importOk, points: importPts, max: 5 }
+                    { name: 'No syntax errors', passed: syntaxOk, points: syntaxPts, max: 4 },
+                    { name: 'Modules importable', passed: importOk, points: importPts, max: 3 }
                 ]
             },
             structure: {
@@ -77,12 +86,21 @@ function computeStaticScore(basicJson) {
                     { name: 'scripts/ directory', passed: scriptsDirOk, points: scriptsDirPts, max: 2 }
                 ]
             },
-            examples: {
-                score: exPts,
+            docs: {
+                score: docExPts,
+                max: 3,
+                checks: [
+                    { name: 'Code examples', passed: examplesOk, points: examplesPts, max: 2 },
+                    { name: 'Documentation', passed: docsOk, points: docsPts, max: 1 }
+                ]
+            },
+            quality: {
+                score: qualityPts,
                 max: 5,
                 checks: [
-                    { name: 'Code examples', passed: examplesOk, points: examplesPts, max: 3 },
-                    { name: 'Documentation', passed: docsOk, points: docsPts, max: 2 }
+                    { name: 'Type hints', passed: typeHintsOk, points: typeHintsPts, max: 2 },
+                    { name: 'Error handling', passed: errorHandlingOk, points: errorHandlingPts, max: 2 },
+                    { name: 'Docstrings', passed: docstringsOk, points: docstringsPts, max: 1 }
                 ]
             }
         }
@@ -133,8 +151,9 @@ function getGrade(score, hasEval) {
 
 function emptyStaticBreakdown() {
     return {
-        scripts: { score: 0, max: 10, checks: [] },
+        scripts: { score: 0, max: 7, checks: [] },
         structure: { score: 0, max: 5, checks: [] },
-        examples: { score: 0, max: 5, checks: [] }
+        docs: { score: 0, max: 3, checks: [] },
+        quality: { score: 0, max: 5, checks: [] }
     };
 }
