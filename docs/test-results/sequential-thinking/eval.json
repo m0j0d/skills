@@ -1,0 +1,28 @@
+{
+  "skill_name": "sequential-thinking",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "I need to decide between PostgreSQL and MongoDB for a new e-commerce platform. There are trade-offs around transactions, schema flexibility, and query patterns. Walk through the decision systematically, consider both options as separate branches, revise your initial assumptions if needed, and export your reasoning as markdown when done.",
+    "assertions": [
+      "Uses sequential_thinking tool with incrementing thoughtNumber to walk through the analysis step by step",
+      "Uses branchFromThought and branchId to explore PostgreSQL vs MongoDB as separate reasoning branches",
+      "Uses isRevision/revisesThought to refine an earlier thought when new insight emerges",
+      "Uses export_thinking_session to save the final reasoning as markdown"
+    ],
+    "with_skill": {
+      "plan": "1. Call sequential_thinking(thought='Understand requirements: e-commerce needs transactions, product catalog flexibility, query patterns for search/analytics', thoughtNumber=1, totalThoughts=7, nextThoughtNeeded=True). 2. Thought 2: Analyze transaction requirements. 3. Thought 3: Analyze schema flexibility needs. 4. Thought 4: Branch A from thought 3 - evaluate PostgreSQL strengths (ACID, joins, mature ecosystem). 5. Thought 4 Branch B from thought 3 - evaluate MongoDB strengths (flexible schema, horizontal scaling). 6. Thought 5: Realize initial assumption about schema flexibility was too narrow, revise thought 3 with isRevision=True. 7. Thought 6: Compare trade-offs and recommend. 8. Thought 7: Synthesize final decision with nextThoughtNeeded=False. 9. Call export_thinking_session(format='markdown').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without skill tools, Claude would write a long prose response comparing PostgreSQL and MongoDB. It would cover transactions, schema flexibility, and query patterns in paragraphs. The reasoning would be inline text - no structured thought tracking, no formal branching of alternatives, no revision mechanism, no exportable session. The analysis quality might be similar, but there is no tool usage for any of the assertions.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

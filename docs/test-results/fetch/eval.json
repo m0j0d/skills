@@ -1,0 +1,28 @@
+{
+  "skill_name": "fetch",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Read the Python 3.13 changelog at https://docs.python.org/3/whatsnew/3.13.html and summarize the top 5 new features. The page is long, so make sure you get content beyond the first section.",
+    "assertions": [
+      "Uses fetch tool with the docs.python.org URL",
+      "Uses start_index or max_length parameters to read beyond the first chunk",
+      "Returns content as markdown (not raw HTML) for clean summarization",
+      "Baseline must fall back to curl/Invoke-WebRequest and parse raw HTML manually"
+    ],
+    "with_skill": {
+      "plan": "1. Call fetch(url='https://docs.python.org/3/whatsnew/3.13.html', max_length=5000) to get the first chunk. 2. Call fetch(url='...', start_index=5000, max_length=5000) to get subsequent chunks. 3. Continue fetching chunks until enough feature content is gathered. 4. Summarize the top 5 features from the clean markdown output.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. Use curl or Invoke-WebRequest to download the raw HTML page. 2. Attempt to parse the HTML manually or pipe through a text converter if available. 3. Struggle with raw HTML tags, navigation chrome, and page length. 4. Try to extract feature descriptions from noisy output. May partially succeed but with significant effort and messy results.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.25,
+    "delta": 0.75,
+    "eval_score": 60,
+    "verdict": "PASS"
+  }
+}

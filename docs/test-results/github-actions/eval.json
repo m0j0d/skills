@@ -1,0 +1,28 @@
+{
+  "skill_name": "github-actions",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Trigger the 'deploy-staging' workflow in owner/myapp on the 'release/v2' branch with inputs environment=staging and dry_run=true. Then monitor the run until it completes or fails, and if it fails, pull the logs and show me the failure reason.",
+    "assertions": [
+      "Uses trigger_workflow tool with correct branch and input parameters",
+      "Uses list_workflow_runs or get_workflow_run to poll run status after triggering",
+      "Uses get_workflow_logs tool to retrieve failure logs if the run fails",
+      "Correctly passes workflow inputs as structured key-value pairs (not raw CLI flags)"
+    ],
+    "with_skill": {
+      "plan": "1. Call trigger_workflow(owner='owner', repo='myapp', workflow='deploy-staging', ref='release/v2', inputs={environment: 'staging', dry_run: 'true'}). 2. Poll get_workflow_run with the returned run ID to check status. 3. If status is 'failure', call get_workflow_logs to download and parse logs. 4. Summarize the failure reason from log output.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would use gh CLI: 'gh workflow run deploy-staging --ref release/v2 -f environment=staging -f dry_run=true -R owner/myapp', then 'gh run list --workflow deploy-staging -R owner/myapp' to find the run, 'gh run watch <id>' or poll with 'gh run view <id>', and 'gh run view <id> --log-failed' for failure logs. The gh CLI can handle this but requires knowing the -f flag syntax for inputs and --ref for branch. It does not provide structured tool interfaces -- inputs are passed as flat CLI flags, not structured key-value pairs.",
+      "assertions_passed": [false, true, true, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.5,
+    "delta": 0.5,
+    "eval_score": 40,
+    "verdict": "PASS"
+  }
+}

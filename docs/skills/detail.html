@@ -3,47 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skill Validation Details</title>
-    <link rel="stylesheet" href="../css/style.css?v=1732156000">
-    <link rel="stylesheet" href="../css/skill-detail.css?v=1732156000">
+    <title>Skill Details</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/skill-detail.css">
 </head>
 <body>
     <header>
         <div class="container">
             <div class="breadcrumb">
-                <a href="../index.html">← Back to Dashboard</a>
+                <a href="../index.html">&larr; Back to Dashboard</a>
             </div>
             <div class="skill-header">
                 <h1 id="skillName">Loading...</h1>
                 <div class="skill-score">
                     <div class="score-value" id="totalScore">--</div>
                     <div class="score-label">/100</div>
-                    <span id="grade" class="grade-badge">-</span>
                 </div>
             </div>
             <p id="skillDescription" class="skill-description" style="display: none;"></p>
+            <div id="statusLine" class="status-line"></div>
         </div>
     </header>
 
     <main class="container">
-        <section class="function-analysis-section">
-            <div class="category-card" id="functionAnalysis">
-                <!-- Populated by JavaScript -->
+        <div class="layers-stack">
+            <div class="category-card" id="safetyCard">
+                <p class="loading">Loading...</p>
             </div>
-        </section>
-
-        <section class="categories-grid">
-            <div class="category-card" id="structure"></div>
-            <div class="category-card" id="functionality"></div>
-            <div class="category-card" id="quality"></div>
-            <div class="category-card" id="security"></div>
-        </section>
-
-        <section class="integration-tests-section">
-            <div id="integrationTests" class="category-card">
-                <p class="loading">Loading test results...</p>
+            <div class="category-card" id="staticCard">
+                <p class="loading">Loading...</p>
             </div>
-        </section>
+            <div class="category-card" id="evalCard">
+                <p class="loading">Loading...</p>
+            </div>
+            <div class="category-card" id="apiCard">
+                <p class="loading">Loading...</p>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -55,6 +51,7 @@
         </div>
     </footer>
 
-    <script src="../js/skill-detail.js?v=1732158000"></script>
+    <script src="../js/scoring.js"></script>
+    <script src="../js/skill-detail.js"></script>
 </body>
 </html>

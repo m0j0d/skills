@@ -1,0 +1,28 @@
+{
+  "skill_name": "semgrep",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Scan the Python files in C:/data/projects/skills/playwright/scripts for security vulnerabilities. Use the security-audit and secrets rulesets. Summarize findings by severity and tell me if any high-severity issues were found.",
+    "assertions": [
+      "Uses scan_code tool with the target path and specified rulesets (p/security-audit, p/secrets)",
+      "Uses parse_findings tool to categorize results by severity level",
+      "Reports structured summary with high/medium/low counts and pass/fail status",
+      "Does not fall back to manual grep or regex-based ad-hoc scanning"
+    ],
+    "with_skill": {
+      "plan": "1. Call scan_code(target_path='C:/data/projects/skills/playwright/scripts', rules=['p/security-audit', 'p/secrets']). 2. Pass results to parse_findings() to get categorized severity breakdown. 3. Report the summary dict: high/medium/low counts, total findings, and pass/fail status based on whether any high-severity findings exist.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "1. No scan_code or parse_findings tools available. 2. Attempt to run 'semgrep' via bash if installed, constructing CLI flags manually (semgrep --config p/security-audit --config p/secrets <path>). 3. Parse raw JSON/text output manually with no structured severity categorization tool. 4. Likely falls back to grep-based pattern matching for common issues (hardcoded passwords, eval usage) if semgrep is not installed, which is ad-hoc and incomplete.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

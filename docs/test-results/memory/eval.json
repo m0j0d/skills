@@ -1,0 +1,29 @@
+{
+  "skill_name": "memory",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "I just switched from VS Code to Neovim as my primary editor, and I'm working on a project called DataPipeline using Rust. Remember this for future conversations.",
+    "assertions": [
+      "Should call create_entities or add_observations to persist the editor preference and project info",
+      "Should store the editor change as an observation on the user entity",
+      "Should create an entity for DataPipeline with entityType 'project' and an observation about Rust",
+      "Should create a relation linking the user to DataPipeline (e.g., 'works_on')",
+      "Baseline without skill will only acknowledge the info verbally without persisting it"
+    ],
+    "with_skill": {
+      "plan": "1. Call search_nodes(query='user') to check if a user entity already exists. 2. If exists, call add_observations(entityName='User', observations=['Switched to Neovim as primary editor']). If not, call create_entities with name='User', entityType='person'. 3. Call create_entities for DataPipeline with entityType='project', observations=['Written in Rust']. 4. Call create_relations(from='User', to='DataPipeline', relationType='works_on'). 5. Confirm persistence.",
+      "assertions_passed": [true, true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Acknowledge the information conversationally: 'Got it, you switched to Neovim and are working on DataPipeline in Rust.' No persistence tools available. Information exists only in current conversation context and will be lost in future conversations.",
+      "assertions_passed": [false, false, false, false, true]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.2,
+    "delta": 0.8,
+    "eval_score": 64,
+    "verdict": "PASS"
+  }
+}

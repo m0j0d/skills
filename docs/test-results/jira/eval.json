@@ -1,0 +1,28 @@
+{
+  "skill_name": "jira",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "I need to move PLATFORM-347 to In Progress and add a comment saying I've started working on the database migration",
+    "assertions": [
+      "Uses get_transitions to discover available transition IDs for PLATFORM-347",
+      "Uses transition_issue with the correct transition ID to move to In Progress",
+      "Uses add_comment to post the working-started message on PLATFORM-347",
+      "Baseline cannot interact with Jira workflow without the skill's tools"
+    ],
+    "with_skill": {
+      "plan": "1. Call get_transitions(issue_key='PLATFORM-347') to get available transitions and find 'In Progress' ID. 2. Call transition_issue(issue_key='PLATFORM-347', transition_id=<id>) to move it. 3. Call add_comment(issue_key='PLATFORM-347', body='I\\'ve started working on the database migration').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Would need to manually construct raw HTTP requests with auth headers to Jira REST API v3. Requires user to provide site name, email, API token. Must construct base64 Basic auth, GET transitions endpoint, parse JSON, POST transition, POST comment — all via curl in Bash. Fragile and error-prone.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

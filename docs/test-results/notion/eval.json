@@ -1,0 +1,27 @@
+{
+  "skill_name": "notion",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Search my Notion workspace for pages about quarterly planning and show me the most recently edited ones.",
+    "assertions": [
+      "Uses notion_search with a query parameter",
+      "Includes sort by last_edited_time in descending order",
+      "Returns page titles and IDs from results"
+    ],
+    "with_skill": {
+      "plan": "Call notion_search with query='quarterly planning', filter={'property': 'object', 'value': 'page'} to restrict to pages only, and sort={'direction': 'descending', 'timestamp': 'last_edited_time'} to order by most recently edited. Extract each result's title and id from the returned results array and present them in descending edit-time order.",
+      "assertions_passed": [true, true, true]
+    },
+    "baseline": {
+      "plan": "Without the notion skill, there is no notion_search tool available. I cannot execute a live search against Notion. I would ask the user to search manually in Notion, or offer to write a Python script using the Notion REST API (POST /v1/search with a sort body) that they could run themselves. I cannot retrieve or display actual results.",
+      "assertions_passed": [false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

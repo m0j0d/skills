@@ -1,327 +1,341 @@
-// Get skill name from URL parameter
-function getSkillName() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('skill') || window.location.pathname.split('/').pop().replace('.html', '');
-}
+/**
+ * Skill detail page — renders 3-layer scoring breakdown.
+ */
 
-// Cache buster for fetch requests
 const cacheBuster = Date.now();
 
-// Load validation report for a specific skill
-async function loadSkillReport(skillName) {
-    try {
-        const response = await fetch(`../test-results/${skillName}/basic.json?v=${cacheBuster}`);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(`Failed to load validation report for ${skillName}:`, error);
-        throw error;
-    }
+function getSkillName() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('skill') || '';
 }
 
-// Load security results
-async function loadSecurityResults(skillName) {
+async function fetchJson(url) {
     try {
-        const response = await fetch(`../test-results/${skillName}/security.json?v=${cacheBuster}`);
+        const response = await fetch(`${url}?v=${cacheBuster}`);
         if (!response.ok) return null;
         return await response.json();
-    } catch (error) {
+    } catch (e) {
         return null;
     }
 }
 
-// Render skill header
-function renderHeader(report) {
-    document.getElementById('skillName').textContent = report.skill_name || 'Unknown';
-    document.getElementById('totalScore').textContent = report.total || 0;
-    const grade = report.grade || 'F';
-    document.getElementById('grade').textContent = grade;
-    document.getElementById('grade').className = `grade-badge grade-${grade.toLowerCase()}`;
-    if (report.description) {
-        const descElement = document.getElementById('skillDescription');
-        if (descElement) {
-            descElement.textContent = report.description;
-            descElement.style.display = 'block';
-        }
-    }
+function esc(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
-// Render category breakdown
-function renderCategory(categoryId, categoryData) {
-    const container = document.getElementById(categoryId);
-    const breakdown = categoryData.breakdown;
-    let html = `<div class="category-header"><h3>${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)}</h3><div class="category-score">${categoryData.score}/${categoryData.max}</div></div><div class="category-items">`;
-    const skipKeys = ['function_count', 'organization_bonus', 'frontmatter_details', 'documentation_details', 'type_hints_details', 'error_handling_details', 'organization_details'];
-    for (const [key, value] of Object.entries(breakdown)) {
-        if (typeof value === 'number' && !skipKeys.includes(key)) {
-            const maxValue = getMaxValue(categoryId, key);
-            const displayValue = Math.min(value, maxValue);
-            const status = displayValue === maxValue ? 'pass' : (displayValue > 0 ? 'partial' : 'fail');
-            const icon = status === 'pass' ? '✓' : (status === 'partial' ? '◐' : '✗');
-            const tooltip = getBreakdownTooltip(key, breakdown);
-            const tooltipAttr = tooltip ? ` data-tooltip="${escapeHtml(tooltip)}"` : '';
-            html += `<div class="breakdown-item status-${status}"${tooltipAttr}><span class="item-icon">${icon}</span><span class="item-label">${formatLabel(key)}</span><span class="item-score">${displayValue}/${maxValue}</span></div>`;
-        }
-    }
-    html += `</div>`;
-    container.innerHTML = html;
-}
+// --- Render functions ---
 
-// Get tooltip text for breakdown items
-function getBreakdownTooltip(key, breakdown) {
-    if (key === 'valid_frontmatter' && breakdown.frontmatter_details) {
-        if (breakdown.valid_frontmatter < 2) return breakdown.frontmatter_details;
-        return null;
+function renderHeader(skillName, description, total, hasEval, status) {
+    document.getElementById('skillName').textContent = skillName;
+    document.getElementById('totalScore').textContent = total;
+    if (description) {
+        const descEl = document.getElementById('skillDescription');
+        descEl.textContent = description;
+        descEl.style.display = 'block';
     }
-    if (key === 'has_functions' && breakdown.function_count !== undefined) {
-        if (breakdown.has_functions < 2) {
-            const count = breakdown.function_count || 0;
-            if (count === 0) return 'No callable functions found';
-            if (count < 3) return `Only ${count} function(s) found (3+ recommended)`;
-        }
-        return null;
-    }
-    if (key === 'documentation' && breakdown.documentation_details) {
-        if (breakdown.documentation < 4) {
-            const details = breakdown.documentation_details;
-            let issues = [];
-            if (details.length < 2000) issues.push(`Only ${details.length} chars (need 2000+)`);
-            if (details.missing_sections && details.missing_sections.length > 0) {
-                issues.push('Missing: ' + details.missing_sections.join(', '));
-            }
-            return issues.length > 0 ? issues.join('\n') : null;
-        }
-        return null;
-    }
-    if (key === 'type_hints' && breakdown.type_hints_details) {
-        if (breakdown.type_hints_details.without_hints && breakdown.type_hints_details.without_hints.length > 0) {
-            return 'Missing hints: ' + breakdown.type_hints_details.without_hints.join(', ');
-        }
-        return null;
-    }
-    if (key === 'error_handling' && breakdown.error_handling_details) {
-        if (breakdown.error_handling_details.without_handling && breakdown.error_handling_details.without_handling.length > 0) {
-            return 'Missing: ' + breakdown.error_handling_details.without_handling.join(', ');
-        }
-        return null;
-    }
-    if (key === 'skill_md_exists' && breakdown.skill_md_exists < 3) return 'SKILL.md file incomplete or missing required sections';
-    if (key === 'scripts_dir' && breakdown.scripts_dir < 3) return 'scripts/ directory incomplete or missing required files';
-    if (key === 'importable' && breakdown.importable < 3) return 'Module import failed - check for missing dependencies';
-    if (key === 'no_syntax_errors' && breakdown.no_syntax_errors < 3) return 'Syntax errors found in Python files';
-    return null;
-}
-
-// Get maximum value for a breakdown item
-function getMaxValue(category, key) {
-    const maxValues = {
-        structure: { skill_md_exists: 3, valid_frontmatter: 2, scripts_dir: 3, has_implementation: 2 },
-        functionality: { no_syntax_errors: 3, importable: 3, has_functions: 2, has_docstrings: 2 },
-        quality: { documentation: 4, examples: 2, type_hints: 2, error_handling: 2 },
-        mcp_compare: { matched: 10, documented_only: 0, implemented_only: 10 }
-    };
-    return maxValues[category]?.[key] || 2;
-}
-
-// Format label
-function formatLabel(label) {
-    const specialCases = {
-        'skill_md_exists': 'SKILL.md exists', 'valid_frontmatter': 'Valid frontmatter', 'scripts_dir': 'scripts/ directory',
-        'has_implementation': 'Has implementation', 'no_syntax_errors': 'No syntax errors', 'importable': 'Modules importable',
-        'has_functions': 'Has functions', 'has_docstrings': 'Has docstrings', 'documentation': 'Documentation',
-        'examples': 'Code examples', 'type_hints': 'Type hints', 'error_handling': 'Error handling'
-    };
-    if (specialCases[label]) return specialCases[label];
-    return label.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-}
-
-// Render function analysis
-function renderFunctionAnalysis(report) {
-    const container = document.getElementById('functionAnalysis');
-    if (!report.function_analysis) {
-        container.innerHTML = `<div class="category-header"><h3>Functions</h3><div class="category-score">0/10</div></div><p class="no-items">No function analysis available</p>`;
-        return;
-    }
-    const comparison = report.function_analysis.comparison;
-    const functionality = report.scores?.functionality?.breakdown || {};
-
-    // Count actual functions from comparison data
-    const implementedCount = (comparison.matched || []).length;
-    const stubCount = functionality.stub_count || 0;
-    const notImplementedCount = stubCount > 0 ? (comparison.implemented_only || []).length : 0;
-
-    // Calculate score: ((90 * ratio) + (ratio * 10)) / 10
-    // Examples: 10/10 = (90*1 + 1*10)/10 = 10; 9/10 = (90*0.9 + 0.9*10)/10 = 9; 5/10 = (90*0.5 + 0.5*10)/10 = 5
-    const totalFunctions = implementedCount + notImplementedCount;
-    let score;
-    if (totalFunctions > 0) {
-        const ratio = implementedCount / totalFunctions;
-        score = ((90 * ratio + ratio * 10) / 10).toFixed(1);
+    const statusLine = document.getElementById('statusLine');
+    let badge;
+    if (status === 'Blocked') {
+        badge = '<span class="status-badge status-blocked">Blocked</span>';
+    } else if (status === 'Needs eval') {
+        badge = '<span class="status-badge status-needs-eval">Needs eval</span>';
+    } else if (status === 'Ready') {
+        badge = '<span class="status-badge status-ready">Ready</span>';
     } else {
-        score = ((90 + 10) / 10).toFixed(1); // All implemented, no stubs: max 10.0
+        badge = `<span class="status-badge status-below">${esc(status)}</span>`;
+    }
+    statusLine.innerHTML = badge;
+}
+
+function renderSafetyCard(safety) {
+    const card = document.getElementById('safetyCard');
+    const badge = safety.passed
+        ? '<span class="safety-badge safety-pass">Pass</span>'
+        : '<span class="safety-badge safety-block">Block</span>';
+
+    let findingsHtml = '';
+    if (safety.findings && safety.findings.length > 0) {
+        const items = safety.findings.map(f => {
+            const severity = f.severity || 'unknown';
+            return `<li class="finding-item finding-${severity}"><span class="finding-severity">${severity.toUpperCase()}</span> <span class="finding-text">${esc(f.message || f.description || JSON.stringify(f))}</span></li>`;
+        }).join('');
+        findingsHtml = `<ul class="findings-list">${items}</ul>`;
     }
 
-    const funcDetailsMap = {};
-    if (comparison.all_implemented) comparison.all_implemented.forEach(func => funcDetailsMap[func.name] = func);
-    const createFuncItem = (funcName, className) => {
-        const details = funcDetailsMap[funcName];
-        if (details) {
-            const tooltip = `${funcName}${details.signature || '()'}\n\n${details.file}:${details.line}`;
-            return `<span class="${className}" title="${tooltip}">${funcName}</span>`;
-        }
-        return `<span class="${className}">${funcName}</span>`;
-    };
+    const countsHtml = `<div class="safety-counts">
+        <span>High: ${safety.highCount}</span>
+        <span>Medium: ${safety.mediumCount}</span>
+        <span>Low: ${safety.lowCount}</span>
+    </div>`;
 
-    // Implemented functions
-    let implementedHtml = '';
-    if (comparison.matched && comparison.matched.length > 0) {
-        implementedHtml = `<div class="func-list"><h4>✓ Implemented (${comparison.matched.length})</h4><div class="func-items">${comparison.matched.map(func => createFuncItem(func, 'func-matched')).join('')}</div></div>`;
-    }
+    card.innerHTML = `
+        <div class="category-header">
+            <h3>Safety Gate</h3>
+            ${badge}
+        </div>
+        <div class="category-items">
+            ${safety.passed
+                ? '<div class="breakdown-item status-pass"><span class="item-icon">&#10003;</span><span class="item-label">No high-severity findings</span></div>'
+                : '<div class="breakdown-item status-fail"><span class="item-icon">&#10007;</span><span class="item-label">High-severity findings detected</span></div>'
+            }
+            ${countsHtml}
+            ${findingsHtml}
+        </div>`;
+}
 
-    // Not implemented (stubs)
-    let notImplementedHtml = '';
-    if (stubCount > 0 && comparison.implemented_only && comparison.implemented_only.length > 0) {
-        notImplementedHtml = `<div class="func-list">
-            <h4>Not Implemented (${stubCount})</h4>
-            <div class="func-items">${comparison.implemented_only.map(func => createFuncItem(func, 'func-stub')).join('')}</div>
+function renderStaticCard(staticScore) {
+    const card = document.getElementById('staticCard');
+    const b = staticScore.breakdown;
+
+    function renderGroup(label, group) {
+        const checksHtml = group.checks.map(c => {
+            const status = c.passed ? 'status-pass' : 'status-fail';
+            const icon = c.passed ? '&#10003;' : '&#10007;';
+            return `<div class="breakdown-item ${status}">
+                <span class="item-icon">${icon}</span>
+                <span class="item-label">${esc(c.name)}</span>
+                <span class="item-score">${c.points}/${c.max}</span>
+            </div>`;
+        }).join('');
+
+        return `<div class="static-group">
+            <div class="group-header">
+                <span class="group-label">${esc(label)}</span>
+                <span class="group-score">${group.score}/${group.max}</span>
+            </div>
+            ${checksHtml}
         </div>`;
     }
 
-    const functionsHtml = `<div class="func-lists">${implementedHtml}${notImplementedHtml}</div>`;
-    container.innerHTML = `<div class="category-header"><h3>Functions</h3><div class="category-score">${score}/10</div></div>${functionsHtml}`;
+    card.innerHTML = `
+        <div class="category-header">
+            <h3>Static Pre-flight</h3>
+            <div class="category-score">${staticScore.total}/20</div>
+        </div>
+        <div class="category-items">
+            ${renderGroup('Scripts parse & import', b.scripts)}
+            ${renderGroup('Structure exists', b.structure)}
+            ${renderGroup('Examples present', b.examples)}
+        </div>`;
 }
 
-// Load integration test results
-async function loadIntegrationResults(skillName) {
-    try {
-        const response = await fetch(`../test-results/${skillName}/integration.json?v=${cacheBuster}`);
-        if (!response.ok) return null;
-        return await response.json();
-    } catch (error) {
-        return null;
+function renderEvalCard(evalScore) {
+    const card = document.getElementById('evalCard');
+
+    if (!evalScore.hasEval) {
+        card.innerHTML = `
+            <div class="category-header">
+                <h3>Behavioral Eval</h3>
+                <div class="category-score needs-eval-score">--/80</div>
+            </div>
+            <div class="no-eval-content">
+                <p class="no-eval-message">No behavioral eval yet.</p>
+                <p class="no-eval-explain">Run A/B eval: spawn with-skill + baseline agents, grade against assertions. Score = (with_skill - baseline) pass rate x 80.</p>
+                <details class="eval-schema">
+                    <summary>eval.json schema</summary>
+                    <pre class="schema-pre">{
+  "skill_name": "example",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Task description...",
+    "assertions": ["Uses X tool", "Handles Y"],
+    "with_skill": {
+      "plan": "Agent plan text...",
+      "assertions_passed": [true, true]
+    },
+    "baseline": {
+      "plan": "Agent plan text...",
+      "assertions_passed": [false, false]
     }
-}
-
-// Render integration tests
-function renderIntegrationTests(integration) {
-    const container = document.getElementById('integrationTests');
-    if (!container) return;
-    if (!integration || !integration.categories || integration.categories.length === 0) {
-        container.innerHTML = `<div class="category-header"><h3>Integration</h3><div class="category-score">0/30</div></div><p class="no-items">No integration tests available</p>`;
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}</pre>
+                </details>
+            </div>`;
         return;
     }
-    const score = integration.score || 0;
-    let html = `<div class="category-header"><h3>Integration</h3><div class="category-score">${score}/30</div></div><div class="integration-summary"><div class="summary-stat"><span class="stat-value">${integration.tests.total}</span><span class="stat-label">Total Tests</span></div><div class="summary-stat"><span class="stat-value">${integration.tests.passed}</span><span class="stat-label">Passed</span></div><div class="summary-stat"><span class="stat-value">${integration.tests.failed}</span><span class="stat-label">Failed</span></div><div class="summary-stat"><span class="stat-value">${integration.elapsed_seconds}s</span><span class="stat-label">Duration</span></div></div><div class="test-categories">`;
-    for (const category of integration.categories) {
-        const statusClass = category.failed === 0 ? 'category-pass' : 'category-fail';
-        html += `<div class="test-category ${statusClass}"><div class="category-title" onclick="this.parentElement.classList.toggle('expanded')"><span class="expand-icon">▶</span><span class="category-name">${category.name.replace(/^Test/, '').replace(/([A-Z])/g, ' $1').trim()}</span><span class="category-count">${category.passed}/${category.passed + category.failed}</span></div><div class="category-tests"><ul>`;
-        for (const test of category.tests) {
-            const icon = test.outcome === 'passed' ? '✓' : '✗';
-            const testClass = test.outcome === 'passed' ? 'test-pass' : 'test-fail';
-            // Build tooltip with method, snippet, and assertions
-            let tooltip = '';
-            if (test.method || test.snippet || test.assertions) {
-                const parts = [];
-                if (test.method) parts.push(`Method: ${test.method}`);
-                if (test.snippet) parts.push(`Call: ${test.snippet}`);
-                if (test.assertions && test.assertions.length > 0) {
-                    parts.push(`Assertions:\n  ${test.assertions.join('\n  ')}`);
-                }
-                tooltip = parts.join('\n\n');
-            }
-            const tooltipAttr = tooltip ? ` data-tooltip="${escapeHtml(tooltip)}"` : '';
-            html += `<li class="${testClass}"${tooltipAttr}><span class="test-icon">${icon}</span><span class="test-name">${test.name.replace(/^test_/, '').replace(/_/g, ' ')}</span><span class="test-duration">${test.duration}ms</span></li>`;
-        }
-        html += `</ul></div></div>`;
+
+    // Render eval summary
+    const deltaPercent = (evalScore.delta * 100).toFixed(0);
+    const withPercent = (evalScore.withSkillRate * 100).toFixed(0);
+    const basePercent = (evalScore.baselineRate * 100).toFixed(0);
+
+    const verdictClass = evalScore.verdict === 'PASS' ? 'verdict-pass'
+        : evalScore.verdict === 'FAIL' ? 'verdict-fail' : 'verdict-marginal';
+
+    let promptsHtml = '';
+    if (evalScore.prompts && evalScore.prompts.length > 0) {
+        promptsHtml = evalScore.prompts.map((p, i) => {
+            const assertionsHtml = (p.assertions || []).map((a, j) => {
+                const withPassed = p.with_skill?.assertions_passed?.[j];
+                const basePassed = p.baseline?.assertions_passed?.[j];
+                const withIcon = withPassed ? '&#10003;' : '&#10007;';
+                const baseIcon = basePassed ? '&#10003;' : '&#10007;';
+                const withClass = withPassed ? 'assert-pass' : 'assert-fail';
+                const baseClass = basePassed ? 'assert-pass' : 'assert-fail';
+                return `<tr class="assertion-row">
+                    <td class="assertion-text">${esc(a)}</td>
+                    <td class="${withClass}">${withIcon}</td>
+                    <td class="${baseClass}">${baseIcon}</td>
+                </tr>`;
+            }).join('');
+
+            return `<div class="eval-prompt">
+                <div class="prompt-header" onclick="this.parentElement.classList.toggle('expanded')">
+                    <span class="expand-icon">&#9654;</span>
+                    <span class="prompt-label">Prompt ${i + 1}</span>
+                    <span class="prompt-text-preview">${esc(p.prompt?.substring(0, 80) || '')}${(p.prompt?.length || 0) > 80 ? '...' : ''}</span>
+                </div>
+                <div class="prompt-detail">
+                    <div class="prompt-full">${esc(p.prompt || '')}</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-col">
+                            <h4>With Skill</h4>
+                            <pre class="plan-text">${esc(p.with_skill?.plan || 'No plan recorded')}</pre>
+                        </div>
+                        <div class="comparison-col">
+                            <h4>Baseline</h4>
+                            <pre class="plan-text">${esc(p.baseline?.plan || 'No plan recorded')}</pre>
+                        </div>
+                    </div>
+                    <table class="assertions-table">
+                        <thead>
+                            <tr><th>Assertion</th><th>With</th><th>Base</th></tr>
+                        </thead>
+                        <tbody>${assertionsHtml}</tbody>
+                    </table>
+                </div>
+            </div>`;
+        }).join('');
     }
-    html += '</div>';
-    container.innerHTML = html;
+
+    card.innerHTML = `
+        <div class="category-header">
+            <h3>Behavioral Eval</h3>
+            <div class="category-score">${evalScore.total}/80</div>
+        </div>
+        <div class="eval-summary">
+            <div class="eval-stat">
+                <span class="eval-stat-value">${withPercent}%</span>
+                <span class="eval-stat-label">With skill</span>
+            </div>
+            <div class="eval-stat">
+                <span class="eval-stat-value">${basePercent}%</span>
+                <span class="eval-stat-label">Baseline</span>
+            </div>
+            <div class="eval-stat">
+                <span class="eval-stat-value">+${deltaPercent}%</span>
+                <span class="eval-stat-label">Delta</span>
+            </div>
+            <div class="eval-stat">
+                <span class="eval-stat-value ${verdictClass}">${esc(evalScore.verdict)}</span>
+                <span class="eval-stat-label">Verdict</span>
+            </div>
+        </div>
+        ${evalScore.evalDate ? `<div class="eval-date">Evaluated: ${esc(evalScore.evalDate)}</div>` : ''}
+        <div class="eval-prompts">${promptsHtml}</div>`;
 }
 
-// Escape HTML
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML.replace(/"/g, '&quot;');
-}
+function renderApiCard(basicJson) {
+    const card = document.getElementById('apiCard');
+    const fa = basicJson?.function_analysis;
 
-// Render security card
-function renderSecurity(security) {
-    const container = document.getElementById('security');
-    if (!container) return;
-    if (!security) {
-        container.innerHTML = `<div class="category-header"><h3>Security</h3><div class="category-score">0/30</div></div><div class="category-items"><p class="no-items">No security scan results</p></div>`;
+    if (!fa || !fa.comparison?.all_implemented?.length) {
+        card.innerHTML = `
+            <div class="category-header">
+                <h3>API Reference</h3>
+            </div>
+            <div class="category-items">
+                <p class="text-muted">No function data available.</p>
+            </div>`;
         return;
     }
-    const score = security.score || 0;
-    const findings = security.findings || {};
-    const highScore = Math.max(0, 15 - ((findings.high || 0) * 15));
-    const mediumScore = Math.max(0, 10 - ((findings.medium || 0) * 5));
-    const lowScore = Math.max(0, 5 - ((findings.low || 0) * 1));
-    const highTooltip = 'Critical vulnerabilities\nSQL injection, command injection,\nhardcoded secrets, etc.\n\n-15 pts per finding';
-    const mediumTooltip = 'Potential security issues\nInsecure defaults, weak crypto,\nmissing input validation\n\n-5 pts per finding';
-    const lowTooltip = 'Code quality concerns\nUnused variables, complexity,\nstyle issues\n\n-1 pt per finding';
-    container.innerHTML = `<div class="category-header"><h3>Security</h3><div class="category-score">${score}/30</div></div><div class="category-items"><div class="breakdown-item ${highScore === 15 ? 'status-pass' : 'status-fail'}" data-tooltip="${highTooltip}"><span class="item-icon">${highScore === 15 ? '✓' : '✗'}</span><span class="item-label">No critical issues</span><span class="item-score">${highScore}/15</span></div><div class="breakdown-item ${mediumScore === 10 ? 'status-pass' : 'status-partial'}" data-tooltip="${mediumTooltip}"><span class="item-icon">${mediumScore === 10 ? '✓' : '◐'}</span><span class="item-label">No warnings</span><span class="item-score">${mediumScore}/10</span></div><div class="breakdown-item ${lowScore === 5 ? 'status-pass' : 'status-partial'}" data-tooltip="${lowTooltip}"><span class="item-icon">${lowScore === 5 ? '✓' : '◐'}</span><span class="item-label">No info issues</span><span class="item-score">${lowScore}/5</span></div></div>`;
+
+    const fns = fa.comparison.all_implemented
+        .filter(f => !f.is_private)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    const matched = new Set(fa.comparison.matched || []);
+    const docOnly = new Set(fa.comparison.documented_only || []);
+
+    const fnRows = fns.map(f => {
+        const inDocs = matched.has(f.name) || docOnly.has(f.name);
+        const docIcon = inDocs ? '&#10003;' : '';
+        const cls = f.class_name ? `<span class="fn-class">${esc(f.class_name)}.</span>` : '';
+        const sig = f.signature ? `<code class="fn-sig">(${esc(f.signature.replace(/^\(/, '').replace(/\)$/, ''))})</code>` : '';
+
+        return `<div class="api-fn">
+            <div class="fn-name-row">
+                ${cls}<span class="fn-name">${esc(f.name)}</span>${sig}
+            </div>
+            <div class="fn-meta">
+                <span class="fn-file">${esc(f.file)}:${f.line}</span>
+                ${f.has_docstring ? '<span class="fn-tag fn-tag-doc">docstring</span>' : ''}
+                ${inDocs ? '<span class="fn-tag fn-tag-matched">documented</span>' : '<span class="fn-tag fn-tag-undoc">undocumented</span>'}
+            </div>
+        </div>`;
+    }).join('');
+
+    const docFnCount = fa.documented_functions?.length || fa.comparison.documented_count || 0;
+    const implCount = fns.length;
+
+    card.innerHTML = `
+        <div class="category-header">
+            <h3>API Reference</h3>
+            <div class="category-score">${docFnCount} documented / ${implCount} public</div>
+        </div>
+        <div class="category-items api-list">
+            ${fnRows}
+        </div>`;
 }
 
-// Main initialization
+// --- Main ---
+
 async function init() {
     const skillName = getSkillName();
+    if (!skillName) {
+        document.querySelector('main.container').innerHTML =
+            '<div class="error-message"><h2>No skill specified</h2><a href="../index.html" class="btn">Back to Dashboard</a></div>';
+        return;
+    }
+
     try {
-        const report = await loadSkillReport(skillName);
-        const security = await loadSecurityResults(skillName);
-        const integration = await loadIntegrationResults(skillName);
+        // Load skill description from manifest
+        const skillsResponse = await fetch(`../data/skills.json?v=${cacheBuster}`);
+        const skills = await skillsResponse.json();
+        const skillInfo = skills.find(s => s.name === skillName);
 
-        // Calculate Functions score using new formula
-        let functionsScore = 10; // default if no function analysis
-        if (report.function_analysis?.comparison) {
-            const comparison = report.function_analysis.comparison;
-            const functionality = report.scores?.functionality?.breakdown || {};
-            const implementedCount = (comparison.matched || []).length;
-            const stubCount = functionality.stub_count || 0;
-            const notImplementedCount = stubCount > 0 ? (comparison.implemented_only || []).length : 0;
-            const totalFunctions = implementedCount + notImplementedCount;
+        // Load all data in parallel
+        const [basic, security, evalData] = await Promise.all([
+            fetchJson(`../test-results/${skillName}/basic.json`),
+            fetchJson(`../test-results/${skillName}/security.json`),
+            fetchJson(`../test-results/${skillName}/eval.json`)
+        ]);
 
-            if (totalFunctions > 0) {
-                const ratio = implementedCount / totalFunctions;
-                functionsScore = (90 * ratio + ratio * 10) / 10;
-            } else {
-                functionsScore = (90 + 10) / 10; // Max 10.0
-            }
-        }
+        const safety = computeSafetyGate(security);
+        const staticScore = computeStaticScore(basic);
+        const evalScore = computeEvalScore(evalData);
+        const total = computeTotalScore(safety, staticScore, evalScore);
 
-        // Calculate component scores
-        const structureScore = report.scores?.structure?.score || 0;
-        const functionalityScore = report.scores?.functionality?.score || 0;
-        const qualityScore = report.scores?.quality?.score || 0;
-        const securityScore = security?.score || 0;
-        const integrationScore = integration?.score || 0;
+        renderHeader(skillName, skillInfo?.description, total.total, total.hasEval, total.status);
+        renderSafetyCard(safety);
+        renderStaticCard(staticScore);
+        renderEvalCard(evalScore);
+        renderApiCard(basic);
 
-        // Overall = (sum of components) × (functions_score / 10)
-        const componentSum = functionsScore + structureScore + functionalityScore + qualityScore + securityScore + integrationScore;
-        const totalScore = componentSum * (functionsScore / 10);
-
-        let grade = 'F';
-        if (totalScore >= 90) grade = 'A';
-        else if (totalScore >= 80) grade = 'B';
-        else if (totalScore >= 70) grade = 'C';
-        else if (totalScore >= 60) grade = 'D';
-        report.total = totalScore.toFixed(1);
-        report.grade = grade;
-        renderHeader(report);
-        renderFunctionAnalysis(report);
-        renderCategory('structure', report.scores.structure);
-        renderCategory('functionality', report.scores.functionality);
-        renderCategory('quality', report.scores.quality);
-        renderSecurity(security);
-        renderIntegrationTests(integration);
     } catch (error) {
-        console.error('Error loading skill report:', error);
-        document.querySelector('main.container').innerHTML = `<div class="error-message"><h2>Error Loading Skill Report</h2><p>Could not load validation report for "${skillName}"</p><p style="font-size: 12px; color: #666;">Error: ${error.message}</p><a href="../index.html" class="btn">Back to Dashboard</a></div>`;
+        console.error('Error:', error);
+        document.querySelector('main.container').innerHTML =
+            `<div class="error-message"><h2>Error Loading Skill</h2><p>${esc(error.message)}</p><a href="../index.html" class="btn">Back to Dashboard</a></div>`;
     }
 }
 
-// Run on page load
 document.addEventListener('DOMContentLoaded', init);

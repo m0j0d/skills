@@ -1,0 +1,28 @@
+{
+  "skill_name": "slack",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Check the #engineering channel for any messages from today mentioning 'deploy', then post a summary to #ops with a checkmark reaction on each original message you found",
+    "assertions": [
+      "Uses get_channel_history tool to read messages from #engineering",
+      "Uses search_messages tool or filters history results for 'deploy' keyword",
+      "Uses post_message tool to send a summary to #ops channel",
+      "Uses add_reaction tool to add a checkmark emoji to matching messages"
+    ],
+    "with_skill": {
+      "plan": "1. Call list_channels to resolve #engineering and #ops channel IDs. 2. Call get_channel_history on the engineering channel ID with a reasonable limit. 3. Filter returned messages for 'deploy' keyword and today's date. 4. Compose a summary of matching messages. 5. Call post_message to send the summary to the #ops channel ID. 6. Call add_reaction with 'white_check_mark' on each matching message's timestamp.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "No Slack API tools available. Would suggest the user open Slack, manually search #engineering for 'deploy', copy relevant messages, paste a summary into #ops, and click the emoji reaction button on each message. Could attempt to use curl with the Slack API if the user provides a bot token, but would not know the correct channel IDs, message timestamps, or API parameter formats without the skill's tooling. Cannot execute the workflow programmatically.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

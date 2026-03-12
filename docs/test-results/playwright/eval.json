@@ -1,0 +1,28 @@
+{
+  "skill_name": "playwright",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "I have a local HTML file at C:/projects/myapp/index.html that shows a blank white page. Debug it: open the file in a browser, check for JavaScript console errors, take a screenshot, and inspect the DOM to see if the #app container has any child elements.",
+    "assertions": [
+      "Uses browser_navigate with file:/// URL to open the local HTML file",
+      "Uses browser_console_messages (with onlyErrors flag) to check for JS errors",
+      "Uses browser_screenshot to capture the visual state of the page",
+      "Uses browser_evaluate to inspect DOM state (e.g. document.querySelector('#app').children.length)"
+    ],
+    "with_skill": {
+      "plan": "1. Call browser_navigate with url 'file:///C:/projects/myapp/index.html' to open the local file. 2. Call browser_console_messages with onlyErrors=true to surface JS errors. 3. Call browser_screenshot with filename 'debug.png' to capture the blank page. 4. Call browser_evaluate with function \"document.querySelector('#app').children.length\" to check if the app container rendered any children. Report findings.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Without browser tools, would suggest the user open the file manually in Chrome DevTools. Could try to read the HTML/JS source files with the Read tool and look for syntax errors statically. Cannot actually open a browser, see console errors at runtime, take a screenshot, or evaluate DOM state. Would offer static code review only.",
+      "assertions_passed": [false, false, false, false]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.0,
+    "delta": 1.0,
+    "eval_score": 80,
+    "verdict": "PASS"
+  }
+}

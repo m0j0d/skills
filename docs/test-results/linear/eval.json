@@ -1,0 +1,28 @@
+{
+  "skill_name": "linear",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Create a high-priority bug ticket for the backend team about the login endpoint returning 500 errors when users have special characters in their passwords. Assign it to me and add it to the API Reliability project.",
+    "assertions": [
+      "Should call linear_list_teams to find the backend team ID before creating the issue",
+      "Should call save_issue with priority=2 (high), teamId, description, assigneeId, and projectId",
+      "Should use linear_get_user_issues or similar to resolve the current user for assigneeId",
+      "Baseline would suggest using the Linear UI or a generic API call"
+    ],
+    "with_skill": {
+      "plan": "1. Call linear_list_teams() to find backend team ID. 2. Call linear_list_projects(teamId=<backend_id>) to find 'API Reliability' project ID. 3. Call linear_get_user_issues() with no userId to resolve self. 4. Call save_issue(title='Login endpoint returns 500 for passwords with special characters', teamId=<id>, priority=2, assigneeId=<self_id>, projectId=<project_id>, description='...').",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "Suggest navigating to linear.app UI, clicking New Issue, selecting backend team, filling in details manually. Or suggest looking up Linear's GraphQL API and crafting a raw createIssue mutation with curl — without knowing exact mutation shape, priority mappings, or how to resolve 'me' to a userId.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.25,
+    "delta": 0.75,
+    "eval_score": 60,
+    "verdict": "PASS"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  { "name": "fetch", "description": "Web content fetching with HTML-to-markdown conversion." },
+  { "name": "github", "description": "GitHub repository management including issues, pull requests, and code operations." },
+  { "name": "github-actions", "description": "GitHub Actions workflow management, monitoring, and CI/CD pipeline control." },
+  { "name": "jira", "description": "Atlassian Jira Cloud integration for project management and issue tracking." },
+  { "name": "linear", "description": "Linear project management integration for issues, projects, and initiatives." },
+  { "name": "memory", "description": "Knowledge graph-based persistent memory for retaining information across conversations." },
+  { "name": "notion", "description": "Notion workspace integration for pages, databases, and collaborative content." },
+  { "name": "playwright", "description": "Browser automation for web debugging, testing, and inspection using Playwright." },
+  { "name": "semgrep", "description": "Static analysis security scanning with Semgrep." },
+  { "name": "sequential-thinking", "description": "Structured thought sequences for dynamic problem-solving with revision and branching." },
+  { "name": "slack", "description": "Slack workspace integration for messaging, channels, and canvas management." },
+  { "name": "twitter", "description": "X/Twitter integration for posting, searching, and managing engagement." }
+]

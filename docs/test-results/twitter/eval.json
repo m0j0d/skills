@@ -1,0 +1,28 @@
+{
+  "skill_name": "twitter",
+  "eval_date": "2026-03-11",
+  "prompts": [{
+    "prompt": "Search Twitter for recent posts about 'Claude Code' and like the top 5 most-retweeted ones",
+    "assertions": [
+      "Uses search_tweets tool with query 'Claude Code'",
+      "Uses like_tweet tool on individual tweet IDs from search results",
+      "Knows the max_results parameter and Twitter search operator syntax",
+      "Baseline cannot search or like tweets programmatically"
+    ],
+    "with_skill": {
+      "plan": "1. Call search_tweets(query='Claude Code', max_results=100). 2. Sort returned tweets by metrics.rt_count descending. 3. Take top 5 tweet IDs. 4. Call like_tweet for each ID.",
+      "assertions_passed": [true, true, true, true]
+    },
+    "baseline": {
+      "plan": "No Twitter API tools available. Would tell user to open twitter.com/search, search manually, scan for high-retweet posts, and click heart icon on each. Cannot execute any part programmatically.",
+      "assertions_passed": [false, false, false, true]
+    }
+  }],
+  "summary": {
+    "with_skill_pass_rate": 1.0,
+    "baseline_pass_rate": 0.25,
+    "delta": 0.75,
+    "eval_score": 60,
+    "verdict": "PASS"
+  }
+}
