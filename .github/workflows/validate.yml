@@ -20,11 +20,15 @@ jobs:
       - name: Check skill structure
         run: |
           errors=0
-          for skill_dir in fetch github github-actions jira linear memory notion playwright semgrep sequential-thinking slack twitter; do
+          # All skills must have SKILL.md
+          for skill_dir in fetch github github-actions jira linear memory notion playwright semgrep sequential-thinking slack sqlite twitter; do
             if [ ! -f "$skill_dir/SKILL.md" ]; then
               echo "FAIL: $skill_dir/SKILL.md missing"
               errors=$((errors + 1))
             fi
+          done
+          # Skills with scripts/ must have valid structure
+          for skill_dir in fetch github github-actions jira linear memory playwright semgrep sequential-thinking slack twitter; do
             if [ ! -d "$skill_dir/scripts" ]; then
               echo "FAIL: $skill_dir/scripts/ missing"
               errors=$((errors + 1))

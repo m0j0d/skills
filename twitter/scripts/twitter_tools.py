@@ -8,36 +8,42 @@ Basic operations for posting, searching, and engaging with Twitter/X content
 import os
 import sys
 import json
+import logging
 import argparse
 import tweepy
 
+logger = logging.getLogger(__name__)
+
+_REQUIRED_ENV_VARS = [
+    'X_API_KEY',
+    'X_API_SECRET',
+    'X_ACCESS_TOKEN',
+    'X_ACCESS_TOKEN_SECRET',
+]
+
 
 def get_twitter_client():
-    """Initialize and return authenticated Twitter API client"""
-    api_key = os.getenv('X_API_KEY')
-    api_secret = os.getenv('X_API_SECRET')
-    access_token = os.getenv('X_ACCESS_TOKEN')
-    access_token_secret = os.getenv('X_ACCESS_TOKEN_SECRET')
+    """Initialize and return authenticated Twitter API v2 client (OAuth 1.0a User Context)."""
+    creds = {var: os.getenv(var) for var in _REQUIRED_ENV_VARS}
+    missing = [var for var, val in creds.items() if not val]
 
-    if not all([api_key, api_secret, access_token, access_token_secret]):
-        print("Error: Missing Twitter API credentials", file=sys.stderr)
-        print("Required environment variables:", file=sys.stderr)
-        print("  X_API_KEY", file=sys.stderr)
-        print("  X_API_SECRET", file=sys.stderr)
-        print("  X_ACCESS_TOKEN", file=sys.stderr)
-        print("  X_ACCESS_TOKEN_SECRET", file=sys.stderr)
+    if missing:
+        missing_list = ', '.join(missing)
+        print(f"Error: Missing required environment variables: {missing_list}", file=sys.stderr)
+        print("Set all four OAuth 1.0a credentials. See SKILL.md Setup section.", file=sys.stderr)
         sys.exit(1)
 
     try:
         client = tweepy.Client(
-            consumer_key=api_key,
-            consumer_secret=api_secret,
-            access_token=access_token,
-            access_token_secret=access_token_secret
+            consumer_key=creds['X_API_KEY'],
+            consumer_secret=creds['X_API_SECRET'],
+            access_token=creds['X_ACCESS_TOKEN'],
+            access_token_secret=creds['X_ACCESS_TOKEN_SECRET'],
         )
         return client
     except Exception as e:
-        print(f"Error authenticating with Twitter API: {e}", file=sys.stderr)
+        logger.error("Failed to initialize X API client: %s", type(e).__name__)
+        print("Error: Failed to authenticate with X API. Check credentials.", file=sys.stderr)
         sys.exit(1)
 
 

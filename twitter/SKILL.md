@@ -1,31 +1,35 @@
 ---
 name: twitter
-description: Twitter/X integration for posting tweets, searching content, managing engagement, and interacting with users through the Twitter API
+description: Twitter/X integration for posting tweets, searching content, managing engagement, and interacting with users through the X API v2
 ---
 
 # Twitter/X Integration
 
-Post tweets, search content, manage engagement, and interact with users directly from Claude Code.
+Post tweets, search content, manage engagement, and interact with users directly from Claude Code using the X API v2.
 
-**Based on:** crazyrabbitLTC/mcp-twitter-server (essential tools subset)
+**Based on:** [crazyrabbitLTC/mcp-twitter-server](https://github.com/crazyrabbitLTC/mcp-twitter-server) (essential tools subset)
 
 ## When to Use
 
-- Post and schedule tweets
-- Search tweets and monitor topics
-- Engage with content (like, retweet, reply)
-- Follow/unfollow users
-- Read your timeline
-- Manage your Twitter presence
+- Post, reply to, or delete tweets
+- Search tweets by keyword or operator
+- Engage with content (like, quote, or share tweets)
+- Follow or unfollow users
+- Look up user profiles
 
 ## Setup
 
-### Prerequisites
+**Prerequisites:** X Developer Account at https://developer.twitter.com, Python 3.8+, and the `tweepy` library.
 
-- Twitter Developer Account (https://developer.twitter.com)
-- Twitter API credentials (Free tier works for basic operations)
+**Install dependency:**
 
-### Environment Variables
+```bash
+pip install tweepy
+```
+
+**Authentication:** This skill uses OAuth 1.0a User Context (the preferred method for user-acting operations). OAuth 2.0 Bearer Token (App-Only) is also supported by tweepy for read-only access — pass only `bearer_token` to `tweepy.Client()` for that mode.
+
+**Environment variables (OAuth 1.0a):**
 
 ```bash
 export X_API_KEY="your_api_key"
@@ -34,329 +38,255 @@ export X_ACCESS_TOKEN="your_access_token"
 export X_ACCESS_TOKEN_SECRET="your_access_token_secret"
 ```
 
-### Getting Twitter API Credentials
+**Getting credentials:**
 
 1. Go to https://developer.twitter.com/en/portal/dashboard
-2. Create a new app or use existing
-3. Navigate to "Keys and tokens"
-4. Generate/copy all four credentials
+2. Create or open an app
+3. Under "Keys and tokens", generate all four OAuth 1.0a credentials
+4. Enable "Read and Write" permissions in app settings
 5. Set as environment variables
-
-### Installation
-
-```bash
-pip install requests tweepy --break-system-packages
-```
-
-### Validation
-
-```bash
-# From project root
-npm run validate:twitter
-
-# Or directly
-python integration-skills/twitter/scripts/validate.py
-```
 
 ## Available Tools
 
-### Tweet Operations
-
-#### `post_tweet`
+### post_tweet
 
 Post a new tweet to your timeline.
 
 **Parameters:**
-- `text` (string, required): Tweet content (max 280 characters)
+- `text` (string, required): Tweet content, max 280 characters
+
+**Returns:** JSON with `tweet_id`, `text`, and `url` of the posted tweet
 
 **Example:**
-```python
-python scripts/twitter_tools.py post-tweet "Hello from Claude Code! 🤖"
+```bash
+python scripts/twitter_tools.py post-tweet "Hello from Claude Code"
 ```
 
-#### `reply_to_tweet`
+---
+
+### reply_to_tweet
 
 Reply to an existing tweet.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to reply to
-- `text` (string, required): Reply content (max 280 characters)
+- `tweet_id` (string, required): ID of the tweet to reply to
+- `text` (string, required): Reply content, max 280 characters
+
+**Returns:** JSON with `reply_id`, `in_reply_to`, `text`, and `url`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py reply-to-tweet 1234567890 "Great point!"
 ```
 
-#### `delete_tweet`
+---
+
+### delete_tweet
 
 Delete one of your tweets.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to delete
+- `tweet_id` (string, required): ID of the tweet to delete
+
+**Returns:** JSON with `deleted_tweet_id` and confirmation message
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py delete-tweet 1234567890
 ```
 
 ---
 
-### Search & Discovery
+### search_tweets
 
-#### `search_tweets`
-
-Search for tweets matching a query.
+Search for tweets matching a query using the X API v2 recent search (7-day window on Free/Basic tiers; full archive on Pro+).
 
 **Parameters:**
-- `query` (string, required): Search query (supports Twitter search operators)
-- `max_results` (number, optional): Number of results to return (default: 10, max: 100)
+- `query` (string, required): Search query supporting X operators (`from:`, `to:`, `#hashtag`, `"exact phrase"`, `-exclude`)
+- `max_results` (integer, optional): Number of results, default 10, max 100
+
+**Returns:** JSON with `count` and array of tweet objects containing `id`, `text`, `created_at`, `author_id`, `metrics` (like_count, rt_count, reply_count), and `url`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py search-tweets "Claude AI" --max-results 20
-python scripts/twitter_tools.py search-tweets "from:ClaudeAI" --max-results 10
+python scripts/twitter_tools.py search-tweets "from:AnthropicAI" --max-results 10
 ```
 
-**Search operators:**
-- `from:username` - Tweets from specific user
-- `to:username` - Tweets mentioning user
-- `#hashtag` - Tweets with hashtag
-- `"exact phrase"` - Exact match
-- `-word` - Exclude word
+---
 
-#### `get_timeline`
+### get_timeline
 
-Get tweets from your home timeline.
+Get recent mentions from your timeline.
 
 **Parameters:**
-- `max_results` (number, optional): Number of tweets to fetch (default: 10, max: 100)
+- `max_results` (integer, optional): Number of tweets, default 10, max 100
+
+**Returns:** JSON with `count` and array of tweet objects containing `id`, `text`, `created_at`, `author_id`, and `url`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py get-timeline --max-results 20
 ```
 
 ---
 
-### Engagement
-
-#### `like_tweet`
+### like_tweet
 
 Like a tweet.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to like
+- `tweet_id` (string, required): ID of the tweet to like
+
+**Returns:** JSON with `tweet_id` and `action: "liked"`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py like-tweet 1234567890
 ```
 
-#### `unlike_tweet`
+---
 
-Unlike a previously liked tweet.
+### unlike_tweet
+
+Remove a like from a previously liked tweet.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to unlike
+- `tweet_id` (string, required): ID of the tweet to unlike
+
+**Returns:** JSON with `tweet_id` and `action: "unliked"`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py unlike-tweet 1234567890
 ```
 
-#### `retweet`
+---
+
+### retweet
 
 Retweet a tweet to your followers.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to retweet
+- `tweet_id` (string, required): ID of the tweet to retweet
+
+**Returns:** JSON with `tweet_id` and `action: "retweeted"`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py retweet 1234567890
 ```
 
-#### `undo_retweet`
+---
+
+### undo_retweet
 
 Remove your retweet.
 
 **Parameters:**
-- `tweet_id` (string, required): ID of tweet to unretweet
+- `tweet_id` (string, required): ID of the tweet to unretweet
+
+**Returns:** JSON with `tweet_id` and `action: "unretweeted"`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py undo-retweet 1234567890
 ```
 
 ---
 
-### User Management
+### get_user_info
 
-#### `get_user_info`
-
-Get detailed information about a Twitter user.
+Get detailed profile information about an X user.
 
 **Parameters:**
-- `username` (string, required): Twitter username (without @)
+- `username` (string, required): X username without the @ symbol
+
+**Returns:** JSON with user object containing `id`, `username`, `name`, `description`, `created_at`, `verified`, and `metrics` (followers, following, tweets)
 
 **Example:**
-```python
-python scripts/twitter_tools.py get-user-info ClaudeAI
+```bash
+python scripts/twitter_tools.py get-user-info AnthropicAI
 ```
 
-**Returns:**
-- User ID
-- Display name
-- Bio/description
-- Follower count
-- Following count
-- Tweet count
-- Account creation date
-- Verified status
+---
 
-#### `follow_user`
+### follow_user
 
-Follow a Twitter user.
+Follow an X user.
 
 **Parameters:**
-- `username` (string, required): Twitter username to follow (without @)
+- `username` (string, required): X username to follow, without @
+
+**Returns:** JSON with `action: "followed"`, `username`, and `user_id`
 
 **Example:**
-```python
-python scripts/twitter_tools.py follow-user ClaudeAI
+```bash
+python scripts/twitter_tools.py follow-user AnthropicAI
 ```
 
-#### `unfollow_user`
+---
 
-Unfollow a Twitter user.
+### unfollow_user
+
+Unfollow an X user.
 
 **Parameters:**
-- `username` (string, required): Twitter username to unfollow (without @)
+- `username` (string, required): X username to unfollow, without @
+
+**Returns:** JSON with `action: "unfollowed"`, `username`, and `user_id`
 
 **Example:**
-```python
+```bash
 python scripts/twitter_tools.py unfollow-user someuser
 ```
 
 ---
 
-## Common Use Cases
+## API Tier Comparison
 
-### Monitor Brand Mentions
+| Feature | Free | Basic ($200/mo) | Pro ($5,000/mo) | Enterprise (custom) |
+|---------|------|-----------------|-----------------|---------------------|
+| Post tweets | 1,500/month | 50,000/month | 100,000/month | Custom |
+| Read tweets | Write-only | 15,000/month | 1,000,000/month | Custom |
+| Search window | None | 7 days recent | Full archive | Full archive |
+| User lookup | Limited | Yes | Yes | Yes |
+| Engagement | Limited | Yes | Yes | Yes |
 
-```python
-# Search for mentions of your brand
-python scripts/twitter_tools.py search-tweets "MyBrand OR @MyBrand" --max-results 50
-```
+**Pay-as-you-go:** X launched a pay-per-use model (in broader rollout as of early 2026). Developers can opt into metered billing with spending caps and auto top-up instead of a fixed monthly plan. Check the [X Developer Portal](https://developer.twitter.com) for current availability.
 
-### Automated Engagement
-
-```python
-# Like tweets about a topic
-# (Use with caution - respect Twitter's automation rules)
-python scripts/twitter_tools.py search-tweets "Claude AI helpful" --max-results 10
-# Then like relevant tweets
-```
-
-### Content Monitoring
-
-```python
-# Monitor timeline for important updates
-python scripts/twitter_tools.py get-timeline --max-results 20
-```
-
-### User Research
-
-```python
-# Get info about influencers in your space
-python scripts/twitter_tools.py get-user-info influencer_handle
-```
-
----
+**Recommendation:** Free tier is write-only. Use Basic ($200/mo) for read+write automation. Use Pro for high-volume or full-archive needs.
 
 ## Rate Limits
 
-**Twitter API Free Tier Limits:**
-- **Tweet creation:** 50 tweets per 24 hours
-- **Read operations:** 1,500 tweets per 15 minutes (timeline, search)
-- **Like/Retweet:** 1,000 per 24 hours
-- **Follow:** 400 per 24 hours
+**X API v2 (varies by tier):**
+- Tweet creation: 1,500/month (Free), 50,000/month (Basic)
+- Read operations: write-only on Free; 15,000 tweets/month on Basic
+- Like/Retweet: subject to per-app and per-user daily caps
+- Search: 7-day recent window on Free/Basic; full archive on Pro+
 
-**Best Practices:**
+**Best practices:**
 - Implement delays between requests
 - Cache results when possible
-- Monitor rate limit headers
-- Upgrade to paid tier if needed
-
----
-
-## API Tier Comparison
-
-| Feature | Free | Basic ($100/mo) | Pro ($5,000/mo) |
-|---------|------|-----------------|-----------------|
-| Post tweets | ✅ 50/day | ✅ Unlimited | ✅ Unlimited |
-| Search tweets | ✅ Limited | ✅ Good | ✅ Full archive |
-| Timeline access | ✅ | ✅ | ✅ |
-| User lookup | ✅ | ✅ | ✅ |
-| Engagement | ✅ | ✅ | ✅ |
-
-**For basic automation: Free tier is sufficient**
-
----
+- Monitor `x-rate-limit-*` response headers
+- Upgrade tier if hitting read limits
 
 ## Error Handling
 
-Common errors and solutions:
+| Error | Cause | Fix |
+|-------|-------|-----|
+| 401 Unauthorized | Bad credentials | Check/regenerate API keys |
+| 403 Forbidden | Insufficient permissions | Enable "Read and Write" in developer portal |
+| 429 Rate Limited | Too many requests | Wait for rate limit window to reset |
 
-**401 Unauthorized:**
-- Check API credentials are correct
-- Verify credentials have write permissions
-- Regenerate tokens if needed
+## Upstream Coverage
 
-**429 Rate Limited:**
-- Slow down request rate
-- Wait for rate limit window to reset
-- Consider upgrading API tier
+This skill covers 12 of the upstream server's 33 core X API tools. Tools not included: `getTweetById`, `getUserTimeline`, `getRetweets`, `getFollowers`, `getFollowing`, list management (create/get/add/remove/members), `getLikedTweets`, `getHashtagAnalytics`, `getAggregatedEngagementMetrics`. The upstream also offers 20 SocialData.tools research tools (advanced search, thread analysis, network analysis, sentiment) not covered here.
 
-**403 Forbidden:**
-- Check app permissions in developer portal
-- Ensure "Read and Write" permissions enabled
-- May need to reauthorize app
+## Security
 
----
-
-## Security Notes
-
-⚠️ **IMPORTANT:**
 - Never commit API credentials to git
 - Use environment variables only
-- Rotate credentials if exposed
-- Set minimum required permissions
-- Monitor API usage regularly
-
----
-
-## Limitations
-
-**Not included in basic skill (requires API upgrade):**
-- Advanced search (full archive)
-- Follower/following lists (requires elevated access)
-- Direct messages
-- Media uploads (coming soon)
-- Hashtag analytics
-- Scheduled tweets (use external scheduler)
-
-**Available in comprehensive version (25% reserve):**
-- Full 53-tool suite with advanced research
-- SocialData.tools integration
-- Thread analysis
-- Sentiment analysis
-- Network mapping
-
----
-
-## Navigation
-
-- [← Back to Integration Skills](../README.md)
-- [Twitter Developer Portal](https://developer.twitter.com)
-- [Twitter API Documentation](https://developer.twitter.com/en/docs/twitter-api)
+- Rotate credentials immediately if exposed
+- Set minimum required permissions in the developer portal
+- Monitor API usage regularly in the X Developer Portal
