@@ -1,0 +1,23 @@
+# Pre-push gate overrides for skills (consumed by atlas/scripts/test-project.sh)
+
+# Lint gate held OFF — named debt, not a silent skip.
+#
+# Until 2026-08-02 this repo typed as `unknown` (no pyproject.toml / ruff.toml /
+# requirements.txt), so the pre-push gate printed "skipping verification" and
+# exited 0 on every push. That is an inert gate wearing a green face — see
+# atlas/patterns/check-liveness-proof.md. Detection now recognizes tracked *.py,
+# so the gate is real; this file records that we are choosing not to arm it yet
+# rather than pretending it was never there.
+#
+# Measured 2026-08-02 with the pinned ruff (atlas/templates/ruff-pin.txt, 0.16.1)
+# over tracked *.py only:
+#
+#   12 tracked .py — 356 violations
+#     UP006 178 · BLE001 38 · UP045 37 · RUF013 23 · UP035 21
+#
+# NOTE ON REMEDIATION: ruff 0.16.1 ships a very broad default rule set (413
+# rules), so most of this is stylistic modernization, not correctness — UP006
+# alone (use `list` not `List`) is half the count here. The right fix is usually
+# to add a ruff.toml SELECTING the rules this repo wants, then delete this line
+# — not to grind through the raw count.
+SKIP_LINT=true
